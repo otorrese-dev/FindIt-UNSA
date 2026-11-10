@@ -1,4 +1,4 @@
-# ENCUENTRAU — CLASES Y ESTRUCTURA DEL SPRINT 1
+# FindIt UNSA — CLASES Y ESTRUCTURA DEL SPRINT 1
 
 ## 1. Clases del integrante 1: Usuarios y autenticación
 
@@ -45,7 +45,7 @@ Estas clases se crean para conectar los módulos:
 El proyecto debe organizarse de la siguiente manera:
 
 ```text
-EncuentraU/
+FindIt-UNSA/
 │
 ├── README.md
 │
