@@ -1,4 +1,4 @@
-package encuentraU.servicios;
+package finditunsa.servicios;
 
 import encuentraU.modelos.Rol;
 import encuentraU.modelos.Usuario;

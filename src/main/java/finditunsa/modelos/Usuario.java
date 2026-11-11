@@ -1,4 +1,4 @@
-package encuentraU.modelos;
+package finditunsa.modelos;
 
 //RESPONSABLE: INTEGRANTE 1
 //MODULO: Usuarios y autenticación

@@ -1,4 +1,4 @@
-package encuentraU.utilidades;
+package finditunsa.utilidades;
 
 // RESPONSABLE: INTEGRANTE 1
 // MODULO: Usuarios y autenticación

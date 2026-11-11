@@ -1,4 +1,4 @@
-package encuentraU.repositorios;
+package finditunsa.repositorios;
 
 import encuentraU.modelos.Usuario;
 
