@@ -1,4 +1,4 @@
-# Arquitectura de EncuentraU - Sprint 1
+# Arquitectura de FindIt UNSA - Sprint 1
 
 ## Capas
 1. **Modelos**: entidades del dominio.
@@ -81,4 +81,3 @@ classDiagram
     CoincidenciaService --> ReporteService
     DevolucionService --> ReporteService
     UsuarioRepository --> Usuario
-```
