@@ -1,5 +1,10 @@
 package encuentraU.modelos;
 
+//RESPONSABLE: INTEGRANTE 1
+//MODULO: Usuarios y autenticación
+//DESCRIPCION: Clase de usuario
+
+
 public class Usuario {
     private int id;
     private String nombre;
