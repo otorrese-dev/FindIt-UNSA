@@ -1,9 +1,9 @@
 package finditunsa.servicios;
 
-import encuentraU.modelos.Rol;
-import encuentraU.modelos.Usuario;
-import encuentraU.repositorios.UsuarioRepository;
-import encuentraU.utilidades.Validador;
+import finditunsa.modelos.Rol;
+import finditunsa.modelos.Usuario;
+import finditunsa.repositorios.UsuarioRepository;
+import finditunsa.utilidades.Validador;
 
 // RESPONSABLE: INTEGRANTE 1
 // MODULO: Usuarios y autenticación

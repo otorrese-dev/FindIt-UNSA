@@ -1,6 +1,6 @@
 package finditunsa.repositorios;
 
-import encuentraU.modelos.Usuario;
+import finditunsa.modelos.Usuario;
 
 import java.util.ArrayList;
 import java.util.HashMap;
