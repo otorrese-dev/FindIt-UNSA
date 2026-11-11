@@ -48,6 +48,7 @@ El proyecto debe organizarse de la siguiente manera:
 FindIt-UNSA/
 │
 ├── README.md
+├── PLAN_TRABAJO.md
 │
 ├── docs/
 │   ├── clases_sprint1.md
@@ -62,7 +63,7 @@ FindIt-UNSA/
 └── src/
     └── main/
         └── java/
-            └── encuentraU/
+            └── finditunsa/
                 │
                 ├── Main.java
                 │
