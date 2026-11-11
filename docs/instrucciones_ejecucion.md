@@ -1,28 +1,32 @@
-# Instrucciones de ejecución
+# Instrucciones de ejecución - FindIt UNSA
 
 ## Requisitos
 - JDK 21 instalado.
 - Terminal en la raíz del proyecto.
 
 ## Compilar
-Linux/macOS:
+
+**Linux/macOS:**
+
 ```bash
 javac -d out $(find src/main/java -name "*.java")
 ```
 
-Windows PowerShell:
+**Windows PowerShell:**
+
 ```powershell
 javac -d out (Get-ChildItem -Recurse src/main/java -Filter *.java).FullName
 ```
 
 ## Ejecutar
+
 ```bash
-java -cp out encuentraU.Main
+java -cp out finditunsa.Main
 ```
 
 ## Usuarios demo
-- Administrador: `admin@encuentrau.edu` / `admin123`
-- Usuario: `ana@universidad.edu` / `1234`
+- **Administrador:** `admin@unsa.edu.pe` / `admin123`
+- **Usuario:** `ana@unsa.edu.pe` / `1234`
 
 ## Notas
 - Los datos se pierden al cerrar la aplicación.
