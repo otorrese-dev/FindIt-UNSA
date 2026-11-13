@@ -176,20 +176,7 @@ Estas clases se crean para conectar los módulos:
 
 ## 7. Formas de obtener y ejecutar el proyecto
 
-### Opción 1. Descargar desde GitHub y ejecutar desde un IDE
-
-Esta opción permite obtener el proyecto sin utilizar comandos de Git.
-
-1. Ingresar al repositorio de EncuentraU en GitHub.
-2. Presionar el botón **Code**.
-3. Seleccionar **Download ZIP**.
-4. Extraer el archivo descargado en una carpeta.
-5. Abrir el proyecto desde un IDE compatible con Java 21, como Apache NetBeans, IntelliJ IDEA o Visual Studio Code.
-6. Configurar JDK 21 y verificar que `src/main/java` esté reconocida como carpeta de fuentes.
-7. Ubicar la clase `Main.java`, dentro del paquete `encuentraU`.
-8. Ejecutar la clase principal.
-
-### Opción 2. Ejecutar desde la terminal (Windows - PowerShell)
+### Opción 1. Ejecutar desde la terminal (Windows - PowerShell)
 
 Esta alternativa permite compilar y ejecutar el proyecto sin instalar un entorno de desarrollo.
 
@@ -214,6 +201,19 @@ java -cp out encuentraU.Main
 ```
 
 Si la compilación termina correctamente, aparecerá el menú principal de EncuentraU en la consola.
+
+### Opción 2. Descargar desde GitHub y ejecutar desde un IDE
+
+Esta opción permite obtener el proyecto sin utilizar comandos de Git.
+
+1. Ingresar al repositorio de EncuentraU en GitHub.
+2. Presionar el botón **Code**.
+3. Seleccionar **Download ZIP**.
+4. Extraer el archivo descargado en una carpeta.
+5. Abrir el proyecto desde un IDE compatible con Java 21, como Apache NetBeans, IntelliJ IDEA o Visual Studio Code.
+6. Configurar JDK 21 y verificar que `src/main/java` esté reconocida como carpeta de fuentes.
+7. Ubicar la clase `Main.java`, dentro del paquete `encuentraU`.
+8. Ejecutar la clase principal.
 
 **Requisito:** ambas opciones necesitan tener instalado JDK 21.
 
