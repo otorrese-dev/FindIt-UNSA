@@ -230,7 +230,7 @@ Si la compilación termina correctamente, aparecerá el menú principal de Encue
 
 **Nota:** Al cerrar el programa, los datos almacenados en memoria se pierden. La persistencia en una base de datos se incorporará durante el Sprint 3.
 
-## 10. Documentación del proyecto
+## 9. Documentación del proyecto
 
 La carpeta `docs/` contiene los documentos necesarios para organizar y comprender el desarrollo:
 
@@ -245,7 +245,7 @@ La carpeta `docs/` contiene los documentos necesarios para organizar y comprende
 | `contratos_integracion.md` | Acuerdos para conectar las clases y servicios. |
 | `instrucciones_ejecucion.md` | Indicaciones adicionales para ejecutar el programa. |
 
-## 11. Progresión de los siguientes sprints
+## 10. Progresión de los siguientes sprints
 
 El proyecto se desarrollará en tres etapas:
 
