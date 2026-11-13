@@ -62,25 +62,124 @@ public class Main {
         SCANNER.close();
     }
 
-    // Precarga dos cuentas por defecto (un administrador y un estudiante UNSA) para pruebas rápidas
+    // Precarga cuentas de prueba y reportes variados (perdidos y encontrados) para demostrar búsqueda, coincidencias y devoluciones
     private static void cargarDatosDemo() {
         try {
-            autenticacionService.registrarUsuario(
+            Usuario admin = autenticacionService.registrarUsuario(
                     "Administrador FindIt UNSA",
                     "admin@unsa.edu.pe",
                     "admin123",
                     Rol.ADMINISTRADOR
             );
-        } catch (Exception ignored) {
-        }
 
-        try {
-            autenticacionService.registrarUsuario(
+            Usuario ana = autenticacionService.registrarUsuario(
                     "Ana Estudiante",
                     "ana@unsa.edu.pe",
                     "1234",
                     Rol.USUARIO
             );
+
+            Usuario carlos = autenticacionService.registrarUsuario(
+                    "Carlos Mamani",
+                    "carlos@unsa.edu.pe",
+                    "1234",
+                    Rol.USUARIO
+            );
+
+            // --- PAR 1 (HACE COINCIDENCIA): Laptop Lenovo ---
+            reporteService.registrarReportePerdido(ana, new Objeto(
+                    "Laptop Lenovo",
+                    "Laptop gris de 14 pulgadas con sticker de Java",
+                    CategoriaObjeto.ELECTRONICA,
+                    "Gris",
+                    "Lenovo",
+                    "Pabellón Alan Turing - Aula 204",
+                    LocalDate.now().minusDays(1),
+                    "Cargador incluido en funda negra"
+            ));
+
+            reporteService.registrarReporteEncontrado(carlos, new Objeto(
+                    "Laptop Lenovo",
+                    "Laptop encontrada en carpeta del segundo piso",
+                    CategoriaObjeto.ELECTRONICA,
+                    "Gris",
+                    "Lenovo",
+                    "Pabellón Alan Turing",
+                    LocalDate.now(),
+                    "Tiene un sticker en la tapa"
+            ));
+
+            // --- PAR 2 (HACE COINCIDENCIA): Carnet Universitario ---
+            reporteService.registrarReportePerdido(carlos, new Objeto(
+                    "Carnet Universitario",
+                    "Carnet universitario UNSA 2026 de Ingeniería de Sistemas",
+                    CategoriaObjeto.DOCUMENTOS,
+                    "Blanco",
+                    "UNSA",
+                    "Comedor Universitario",
+                    LocalDate.now().minusDays(1),
+                    "Portacarnet azul con cinta"
+            ));
+
+            reporteService.registrarReporteEncontrado(admin, new Objeto(
+                    "Carnet Universitario",
+                    "Carnet universitario UNSA encontrado cerca a las mesas",
+                    CategoriaObjeto.DOCUMENTOS,
+                    "Blanco",
+                    "UNSA",
+                    "Comedor Universitario",
+                    LocalDate.now(),
+                    "Portacarnet azul"
+            ));
+
+            // --- REPORTES ADICIONALES (PARA PROBAR BÚSQUEDAS Y FILTROS) ---
+            reporteService.registrarReportePerdido(ana, new Objeto(
+                    "Mochila Porta",
+                    "Mochila negra con cuadernos de Estructuras Discretas",
+                    CategoriaObjeto.MOCHILAS,
+                    "Negro",
+                    "Porta",
+                    "Biblioteca de Ingenierías",
+                    LocalDate.now().minusDays(2),
+                    "Llavero metálico en el cierre"
+            ));
+
+            reporteService.registrarReportePerdido(carlos, new Objeto(
+                    "Casaca Polar",
+                    "Casaca térmica azul marino talla M",
+                    CategoriaObjeto.ROPA,
+                    "Azul",
+                    "North Face",
+                    "Loza Deportiva",
+                    LocalDate.now().minusDays(3),
+                    "Bolsillo izquierdo con cierre roto"
+            ));
+
+            reporteService.registrarReporteEncontrado(ana, new Objeto(
+                    "Libro Cálculo Integral",
+                    "Libro de Cálculo de una variable con apuntes",
+                    CategoriaObjeto.LIBROS,
+                    "Rojo",
+                    "Stewart",
+                    "Pabellón de Ciencias Básicas",
+                    LocalDate.now().minusDays(1),
+                    "Nombre escrito en la primera hoja"
+            ));
+
+            reporteService.registrarReporteEncontrado(admin, new Objeto(
+                    "Audífonos Inalámbricos",
+                    "Estuche de audífonos bluetooth color negro",
+                    CategoriaObjeto.ACCESORIOS,
+                    "Negro",
+                    "Xiaomi",
+                    "Puerta Principal Av. Independencia",
+                    LocalDate.now(),
+                    "Tiene una pequeña raya en la tapa"
+            ));
+
+            // Genera automáticamente las coincidencias iniciales detectadas
+            coincidenciaService.generarCoincidencias();
+
         } catch (Exception ignored) {
         }
     }
