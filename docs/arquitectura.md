@@ -16,68 +16,10 @@
 
 ## Diagrama de clases
 
-```mermaid
-classDiagram
-    class Usuario {
-        -int id
-        -String nombre
-        -String correo
-        -String contrasena
-        -Rol rol
-    }
-    class Objeto {
-        -String nombre
-        -String descripcion
-        -CategoriaObjeto categoria
-        -String color
-        -String marca
-        -String ubicacion
-        -LocalDate fechaEvento
-        -String caracteristicas
-    }
-    class Reporte {
-        <<abstract>>
-        -int id
-        -Usuario usuario
-        -Objeto objeto
-        -LocalDateTime fechaRegistro
-        -EstadoReporte estado
-        +getTipoReporte()
-    }
-    class ReportePerdido
-    class ReporteEncontrado
-    class Coincidencia {
-        -int id
-        -ReportePerdido reportePerdido
-        -ReporteEncontrado reporteEncontrado
-        -int puntaje
-        -List~String~ caracteristicasCoincidentes
-    }
-    class Devolucion {
-        -int id
-        -ReportePerdido reportePerdido
-        -ReporteEncontrado reporteEncontrado
-        -Usuario registradoPor
-        -LocalDateTime fechaDevolucion
-    }
-    class UsuarioRepository
-    class AutenticacionService
-    class ReporteService
-    class BusquedaService
-    class CoincidenciaService
-    class DevolucionService
+A continuación, se presenta el diagrama UML de la arquitectura de EncuentraU correspondiente al Sprint 1.
 
-    Reporte <|-- ReportePerdido
-    Reporte <|-- ReporteEncontrado
-    Reporte --> Usuario
-    Reporte --> Objeto
-    Coincidencia --> ReportePerdido
-    Coincidencia --> ReporteEncontrado
-    Devolucion --> ReportePerdido
-    Devolucion --> ReporteEncontrado
-    AutenticacionService --> UsuarioRepository
-    ReporteService --> Reporte
-    BusquedaService --> ReporteService
-    CoincidenciaService --> ReporteService
-    DevolucionService --> ReporteService
-    UsuarioRepository --> Usuario
+<p align="center">
+  <img src="../img/diagrama_clases_sprint1.png" 
+       alt="Diagrama de clases de EncuentraU" 
+       width="100%">
+</p>
