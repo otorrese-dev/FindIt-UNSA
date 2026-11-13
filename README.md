@@ -1,57 +1,71 @@
-# FindIt UNSA — CLASES Y ESTRUCTURA DEL SPRINT 1
+# ENCUENTRAU — SPRINT 1
 
-## 1. Clases del integrante 1: Usuarios y autenticación
+## 1. Descripción del proyecto
 
-| Clase | Tipo | Responsabilidad |
-|---|---|---|
-| `Usuario` | Clase | Almacenar los datos del usuario. |
-| `AutenticacionService` | Servicio | Registrar usuarios e iniciar/cerrar sesión. |
-| `UsuarioRepository` | Repositorio | Gestionar usuarios temporalmente en memoria. |
-| `Rol` | Enum | Diferenciar usuario y administrador. |
+**EncuentraU** es una aplicación desarrollada para gestionar objetos perdidos y encontrados dentro de una comunidad universitaria.
 
-## 2. Clases del integrante 2: Registro y gestión de objetos
+Su propósito es facilitar el registro, búsqueda y recuperación de objetos, permitiendo que los usuarios reporten artículos que han perdido o encontrado. Además, el sistema permite identificar posibles coincidencias y gestionar las devoluciones.
 
-| Clase | Tipo | Responsabilidad |
-|---|---|---|
-| `Objeto` | Clase | Representar las características de un objeto. |
-| `Reporte` | Clase abstracta | Contener los datos comunes de los reportes. |
-| `ReportePerdido` | Clase | Representar un objeto que alguien perdió. |
-| `ReporteEncontrado` | Clase | Representar un objeto que alguien encontró. |
-| `ReporteService` | Servicio | Registrar, consultar y actualizar reportes. |
-| `EstadoReporte` | Enum | Definir los estados de un reporte. |
-| `CategoriaObjeto` | Enum | Clasificar los objetos. |
+El proyecto se desarrolla de manera incremental mediante tres sprints, aplicando los principios de programación orientada a objetos y metodologías ágiles.
 
-## 3. Clases del integrante 3: Búsqueda, coincidencias y devoluciones
+## 2. Objetivos del Sprint 1
 
-| Clase | Tipo | Responsabilidad |
-|---|---|---|
-| `BusquedaService` | Servicio | Buscar y filtrar objetos. |
-| `Coincidencia` | Clase | Representar una posible coincidencia. |
-| `CoincidenciaService` | Servicio | Comparar reportes perdidos y encontrados. |
-| `Devolucion` | Clase | Registrar la devolución de un objeto. |
-| `DevolucionService` | Servicio | Gestionar las devoluciones. |
+Durante este primer sprint se desarrollará la lógica principal del sistema mediante una aplicación de consola.
 
-## 4. Clases generales de integración
+Los objetivos son:
 
-Estas clases se crean para conectar los módulos:
+- Implementar el registro de usuarios y la autenticación.
+- Permitir el registro de objetos perdidos y encontrados.
+- Gestionar los reportes realizados por los usuarios.
+- Implementar la búsqueda y consulta de objetos.
+- Identificar posibles coincidencias entre reportes.
+- Gestionar las devoluciones de objetos.
+- Aplicar los principios de programación orientada a objetos.
+- Organizar el código para facilitar su integración en los siguientes sprints.
 
-| Clase | Responsabilidad |
+## 3. Tecnologías y herramientas utilizadas
+
+| Tecnología / Herramienta | Uso |
 |---|---|
-| `Main` | Ejecutar el programa y mostrar el menú principal. |
-| `Validador` | Validar datos ingresados por consola. |
+| Java 21 | Lenguaje de programación utilizado para desarrollar el sistema. |
+| Apache NetBeans | Entorno de desarrollo compatible. |
+| IntelliJ IDEA | Entorno de desarrollo compatible. |
+| Visual Studio Code | Entorno de desarrollo compatible mediante las extensiones de Java. |
+| Git y GitHub | Control de versiones y colaboración. |
+| ArrayList y HashMap | Gestión temporal de información en memoria. |
 
-## 5. Estructura de carpetas del proyecto
+**Importante:** El proyecto no depende de un entorno de desarrollo específico. Puede abrirse y ejecutarse desde cualquier IDE compatible con Java 21 o directamente desde la terminal, respetando la estructura de paquetes y las instrucciones de ejecución.
+
+## 4. Requisitos previos
+
+Para ejecutar EncuentraU se necesita:
+
+- Tener instalado **JDK 21**.
+- Disponer de una computadora con Windows, Linux o macOS.
+- Descargar el código fuente desde el repositorio de GitHub.
+
+No es obligatorio instalar Apache NetBeans, IntelliJ IDEA o Visual Studio Code. Estos programas son alternativas para facilitar la visualización y ejecución del código.
+
+Para comprobar que Java está instalado, ejecutar en una terminal:
+
+```bash
+java -version
+javac -version
+```
+
+Ambos comandos deben reconocer la versión 21 del JDK.
+
+## 5. Estructura del proyecto
 
 El proyecto debe organizarse de la siguiente manera:
 
 ```text
-FindIt-UNSA/
+EncuentraU/
 │
 ├── README.md
-├── PLAN_TRABAJO.md
 │
 ├── docs/
-│   ├── clases_sprint1.md
+│   ├── arquitectura.md
 │   ├── distribucion_integrantes.md
 │   ├── integrante_1.md
 │   ├── integrante_2.md
@@ -63,7 +77,7 @@ FindIt-UNSA/
 └── src/
     └── main/
         └── java/
-            └── finditunsa/
+            └── encuentraU/
                 │
                 ├── Main.java
                 │
@@ -93,7 +107,7 @@ FindIt-UNSA/
                     └── Validador.java
 ```
 
-### Descripción de las carpetas
+### 5.1. Descripción de las carpetas
 
 | Carpeta | Contenido |
 |---|---|
@@ -104,7 +118,51 @@ FindIt-UNSA/
 | `utilidades/` | Funciones auxiliares y validaciones. |
 | `Main.java` | Punto de entrada y menú principal de consola. |
 
-## 6. Resumen general
+## 6. Clases y distribución de responsabilidades
+
+El desarrollo se divide entre tres integrantes para facilitar el trabajo y la integración de los módulos.
+
+### 6.1. Integrante 1: Usuarios y autenticación
+
+| Clase | Tipo | Responsabilidad |
+|---|---|---|
+| `Usuario` | Clase | Almacenar los datos del usuario. |
+| `AutenticacionService` | Servicio | Registrar usuarios e iniciar/cerrar sesión. |
+| `UsuarioRepository` | Repositorio | Gestionar usuarios temporalmente en memoria. |
+| `Rol` | Enum | Diferenciar usuario y administrador. |
+
+### 6.2. Integrante 2: Registro y gestión de objetos
+
+| Clase | Tipo | Responsabilidad |
+|---|---|---|
+| `Objeto` | Clase | Representar las características de un objeto. |
+| `Reporte` | Clase abstracta | Contener los datos comunes de los reportes. |
+| `ReportePerdido` | Clase | Representar un objeto que alguien perdió. |
+| `ReporteEncontrado` | Clase | Representar un objeto que alguien encontró. |
+| `ReporteService` | Servicio | Registrar, consultar y actualizar reportes. |
+| `EstadoReporte` | Enum | Definir los estados de un reporte. |
+| `CategoriaObjeto` | Enum | Clasificar los objetos. |
+
+### 6.3. Integrante 3: Búsqueda, coincidencias y devoluciones
+
+| Clase | Tipo | Responsabilidad |
+|---|---|---|
+| `BusquedaService` | Servicio | Buscar y filtrar objetos. |
+| `Coincidencia` | Clase | Representar una posible coincidencia. |
+| `CoincidenciaService` | Servicio | Comparar reportes perdidos y encontrados. |
+| `Devolucion` | Clase | Registrar la devolución de un objeto. |
+| `DevolucionService` | Servicio | Gestionar las devoluciones. |
+
+### 6.4. Clases generales de integración
+
+Estas clases se crean para conectar los módulos:
+
+| Clase | Responsabilidad |
+|---|---|
+| `Main` | Ejecutar el programa y mostrar el menú principal. |
+| `Validador` | Validar datos ingresados por consola. |
+
+### 6.5. Resumen general
 
 **Total: 18 archivos entre clases y enumeraciones.**
 
@@ -116,58 +174,85 @@ FindIt-UNSA/
 | Integración general | 2 |
 | **Total** | **18** |
 
-## 7. Consideraciones para el desarrollo
+## 7. Formas de obtener y ejecutar el proyecto
 
-- Mantener estas clases como base del Sprint 1.
-- No crear todavía ventanas, botones ni formularios gráficos.
-- No implementar conexiones a MySQL ni JDBC en este sprint.
-- Gestionar temporalmente los datos en memoria.
-- Utilizar `Reporte` como clase abstracta.
-- Hacer que `ReportePerdido` y `ReporteEncontrado` hereden de `Reporte`.
-- Procurar que los servicios trabajen con los repositorios para facilitar la integración posterior.
-- Mantener los nombres de clases, atributos y métodos acordados entre los tres integrantes.
+### Opción 1. Descargar desde GitHub y ejecutar desde un IDE
 
-## 8. Progresión de los siguientes sprints
+Esta opción permite obtener el proyecto sin utilizar comandos de Git.
+
+1. Ingresar al repositorio de EncuentraU en GitHub.
+2. Presionar el botón **Code**.
+3. Seleccionar **Download ZIP**.
+4. Extraer el archivo descargado en una carpeta.
+5. Abrir el proyecto desde un IDE compatible con Java 21, como Apache NetBeans, IntelliJ IDEA o Visual Studio Code.
+6. Configurar JDK 21 y verificar que `src/main/java` esté reconocida como carpeta de fuentes.
+7. Ubicar la clase `Main.java`, dentro del paquete `encuentraU`.
+8. Ejecutar la clase principal.
+
+### Opción 2. Ejecutar desde la terminal (Windows - PowerShell)
+
+Esta alternativa permite compilar y ejecutar el proyecto sin instalar un entorno de desarrollo.
+
+1. Descargar el repositorio desde GitHub o clonarlo:
+
+```bash
+git clone URL_DEL_REPOSITORIO
+```
+
+2. Abrir PowerShell y ubicarse en la carpeta principal `EncuentraU`.
+
+3. Compilar los archivos Java:
+
+```powershell
+javac -d out (Get-ChildItem -Recurse src\main\java\*.java).FullName
+```
+
+4. Ejecutar el programa:
+
+```powershell
+java -cp out encuentraU.Main
+```
+
+Si la compilación termina correctamente, aparecerá el menú principal de EncuentraU en la consola.
+
+**Requisito:** ambas opciones necesitan tener instalado JDK 21.
+
+## 8. Funcionalidades del Sprint 1
+
+| Módulo | Funcionalidades |
+|---|---|
+| Usuarios | Registro, inicio y cierre de sesión. |
+| Objetos | Registro de objetos perdidos y encontrados. |
+| Reportes | Consulta y actualización de reportes. |
+| Búsqueda | Búsqueda y filtrado de objetos. |
+| Coincidencias | Identificación de posibles coincidencias. |
+| Devoluciones | Registro y gestión de devoluciones. |
+
+**Nota:** Al cerrar el programa, los datos almacenados en memoria se pierden. La persistencia en una base de datos se incorporará durante el Sprint 3.
+
+## 10. Documentación del proyecto
+
+La carpeta `docs/` contiene los documentos necesarios para organizar y comprender el desarrollo:
+
+| Archivo | Descripción |
+|---|---|
+| `arquitectura.md` | Lista de clases y estructura del Sprint 1. |
+| `distribucion_integrantes.md` | Distribución general de responsabilidades. |
+| `integrante_1.md` | Tareas correspondientes al integrante 1. |
+| `integrante_2.md` | Tareas correspondientes al integrante 2. |
+| `integrante_3.md` | Tareas correspondientes al integrante 3. |
+| `arquitectura.md` | Organización y relación entre los módulos. |
+| `contratos_integracion.md` | Acuerdos para conectar las clases y servicios. |
+| `instrucciones_ejecucion.md` | Indicaciones adicionales para ejecutar el programa. |
+
+## 11. Progresión de los siguientes sprints
+
+El proyecto se desarrollará en tres etapas:
 
 | Sprint | Desarrollo |
 |---|---|
-| Sprint 1 | Lógica del sistema mediante consola y almacenamiento temporal en memoria. |
-| Sprint 2 | Interfaz gráfica con Java Swing e integración con la lógica existente. |
-| Sprint 3 | Base de datos MySQL y conexión mediante JDBC. |
+| **Sprint 1** | Lógica del sistema mediante consola y almacenamiento temporal en memoria. |
+| **Sprint 2** | Interfaz gráfica con Java Swing e integración con la lógica existente. |
+| **Sprint 3** | Base de datos MySQL y conexión mediante JDBC. |
 
-**Importante:** La estructura presentada corresponde al Sprint 1. En los siguientes sprints se podrán agregar nuevas carpetas y clases sin necesidad de modificar toda la organización del proyecto.
-
-# 9. Instrucciones de ejecución - FindIt UNSA
-
-## Requisitos
-- JDK 21 instalado.
-- Terminal en la raíz del proyecto.
-
-## Compilar
-
-**Linux/macOS:**
-
-```bash
-javac -d out $(find src/main/java -name "*.java")
-```
-
-**Windows PowerShell:**
-
-```powershell
-javac -d out (Get-ChildItem -Recurse src/main/java -Filter *.java).FullName
-```
-
-## Ejecutar
-
-```bash
-java -cp out finditunsa.Main
-```
-
-### Usuarios demo precargados
-- **Administrador (Líder):** `sala@unsa.edu.pe` / `admin123`
-- **Usuario estudiante 1:** `otorrese@unsa.edu.pe` / `1234`
-- **Usuario estudiante 2:** `gturpo@unsa.edu.pe` / `1234`
-
-## Notas
-- Los datos se pierden al cerrar la aplicación.
-- No se utiliza base de datos en este Sprint.
+La estructura presentada corresponde al Sprint 1. En los siguientes sprints se podrán agregar nuevas carpetas y clases sin necesidad de modificar toda la organización del proyecto.
