@@ -62,32 +62,32 @@ public class Main {
         SCANNER.close();
     }
 
-    // Precarga cuentas de prueba y reportes variados (perdidos y encontrados) para demostrar búsqueda, coincidencias y devoluciones
+    // Precarga cuentas de los integrantes y reportes de prueba en ubicaciones de la UNSA
     private static void cargarDatosDemo() {
         try {
-            Usuario admin = autenticacionService.registrarUsuario(
-                    "Administrador FindIt UNSA",
-                    "admin@unsa.edu.pe",
+            Usuario sebastian = autenticacionService.registrarUsuario(
+                    "Sebastián Ala",
+                    "sala@unsa.edu.pe",
                     "admin123",
                     Rol.ADMINISTRADOR
             );
 
-            Usuario ana = autenticacionService.registrarUsuario(
-                    "Ana Estudiante",
-                    "ana@unsa.edu.pe",
+            Usuario omar = autenticacionService.registrarUsuario(
+                    "Omar Torres",
+                    "otorrese@unsa.edu.pe",
                     "1234",
                     Rol.USUARIO
             );
 
-            Usuario carlos = autenticacionService.registrarUsuario(
-                    "Carlos Mamani",
-                    "carlos@unsa.edu.pe",
+            Usuario gabriel = autenticacionService.registrarUsuario(
+                    "Gabriel Turpo",
+                    "gturpo@unsa.edu.pe",
                     "1234",
                     Rol.USUARIO
             );
 
             // --- PAR 1 (HACE COINCIDENCIA): Laptop Lenovo ---
-            reporteService.registrarReportePerdido(ana, new Objeto(
+            reporteService.registrarReportePerdido(omar, new Objeto(
                     "Laptop Lenovo",
                     "Laptop gris de 14 pulgadas con sticker de Java",
                     CategoriaObjeto.ELECTRONICA,
@@ -98,7 +98,7 @@ public class Main {
                     "Cargador incluido en funda negra"
             ));
 
-            reporteService.registrarReporteEncontrado(carlos, new Objeto(
+            reporteService.registrarReporteEncontrado(gabriel, new Objeto(
                     "Laptop Lenovo",
                     "Laptop encontrada en carpeta del segundo piso",
                     CategoriaObjeto.ELECTRONICA,
@@ -110,30 +110,30 @@ public class Main {
             ));
 
             // --- PAR 2 (HACE COINCIDENCIA): Carnet Universitario ---
-            reporteService.registrarReportePerdido(carlos, new Objeto(
+            reporteService.registrarReportePerdido(gabriel, new Objeto(
                     "Carnet Universitario",
                     "Carnet universitario UNSA 2026 de Ingeniería de Sistemas",
                     CategoriaObjeto.DOCUMENTOS,
                     "Blanco",
                     "UNSA",
-                    "Comedor Universitario",
+                    "Comedor de Ingenierías",
                     LocalDate.now().minusDays(1),
                     "Portacarnet azul con cinta"
             ));
 
-            reporteService.registrarReporteEncontrado(admin, new Objeto(
+            reporteService.registrarReporteEncontrado(sebastian, new Objeto(
                     "Carnet Universitario",
                     "Carnet universitario UNSA encontrado cerca a las mesas",
                     CategoriaObjeto.DOCUMENTOS,
                     "Blanco",
                     "UNSA",
-                    "Comedor Universitario",
+                    "Comedor de Ingenierías",
                     LocalDate.now(),
                     "Portacarnet azul"
             ));
 
             // --- REPORTES ADICIONALES (PARA PROBAR BÚSQUEDAS Y FILTROS) ---
-            reporteService.registrarReportePerdido(ana, new Objeto(
+            reporteService.registrarReportePerdido(omar, new Objeto(
                     "Mochila Porta",
                     "Mochila negra con cuadernos de Estructuras Discretas",
                     CategoriaObjeto.MOCHILAS,
@@ -144,35 +144,35 @@ public class Main {
                     "Llavero metálico en el cierre"
             ));
 
-            reporteService.registrarReportePerdido(carlos, new Objeto(
+            reporteService.registrarReportePerdido(gabriel, new Objeto(
                     "Casaca Polar",
                     "Casaca térmica azul marino talla M",
                     CategoriaObjeto.ROPA,
                     "Azul",
                     "North Face",
-                    "Loza Deportiva",
+                    "Canchas de Ingenierías",
                     LocalDate.now().minusDays(3),
                     "Bolsillo izquierdo con cierre roto"
             ));
 
-            reporteService.registrarReporteEncontrado(ana, new Objeto(
+            reporteService.registrarReporteEncontrado(omar, new Objeto(
                     "Libro Cálculo Integral",
                     "Libro de Cálculo de una variable con apuntes",
                     CategoriaObjeto.LIBROS,
                     "Rojo",
                     "Stewart",
-                    "Pabellón de Ciencias Básicas",
+                    "Escuela Profesional de Ingeniería de Sistemas",
                     LocalDate.now().minusDays(1),
                     "Nombre escrito en la primera hoja"
             ));
 
-            reporteService.registrarReporteEncontrado(admin, new Objeto(
+            reporteService.registrarReporteEncontrado(sebastian, new Objeto(
                     "Audífonos Inalámbricos",
                     "Estuche de audífonos bluetooth color negro",
                     CategoriaObjeto.ACCESORIOS,
                     "Negro",
                     "Xiaomi",
-                    "Puerta Principal Av. Independencia",
+                    "Puerta de Av. Independencia - Ingenierías",
                     LocalDate.now(),
                     "Tiene una pequeña raya en la tapa"
             ));
@@ -180,8 +180,7 @@ public class Main {
             // Genera automáticamente las coincidencias iniciales detectadas
             coincidenciaService.generarCoincidencias();
 
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
     }
 
     // Imprime la cabecera con el estado de la sesión actual y las opciones disponibles

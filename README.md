@@ -164,9 +164,9 @@ java -cp out finditunsa.Main
 ```
 
 ### Usuarios demo precargados
-- **Administrador:** `admin@unsa.edu.pe` / `admin123`
-- **Usuario estudiante 1:** `ana@unsa.edu.pe` / `1234`
-- **Usuario estudiante 2:** `carlos@unsa.edu.pe` / `1234`
+- **Administrador (Líder):** `sala@unsa.edu.pe` / `admin123`
+- **Usuario estudiante 1:** `otorrese@unsa.edu.pe` / `1234`
+- **Usuario estudiante 2:** `gturpo@unsa.edu.pe` / `1234`
 
 ## Notas
 - Los datos se pierden al cerrar la aplicación.
