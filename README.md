@@ -1,8 +1,8 @@
-# ENCUENTRAU — SPRINT 1
+# FINDIT-UNSA — SPRINT 1
 
 ## 1. Descripción del proyecto
 
-**EncuentraU** es una aplicación desarrollada para gestionar objetos perdidos y encontrados dentro de una comunidad universitaria.
+**FindIt-UNSA** es una aplicación desarrollada para gestionar objetos perdidos y encontrados dentro de una comunidad universitaria.
 
 Su propósito es facilitar el registro, búsqueda y recuperación de objetos, permitiendo que los usuarios reporten artículos que han perdido o encontrado. Además, el sistema permite identificar posibles coincidencias y gestionar las devoluciones.
 
@@ -38,7 +38,7 @@ Los objetivos son:
 
 ## 4. Requisitos previos
 
-Para ejecutar EncuentraU se necesita:
+Para ejecutar FindIt-UNSA se necesita:
 
 - Tener instalado **JDK 21**.
 - Disponer de una computadora con Windows, Linux o macOS.
@@ -60,7 +60,7 @@ Ambos comandos deben reconocer la versión 21 del JDK.
 El proyecto debe organizarse de la siguiente manera:
 
 ```text
-EncuentraU/
+FindIt-UNSA/
 │
 ├── README.md
 │
@@ -77,7 +77,7 @@ EncuentraU/
 └── src/
     └── main/
         └── java/
-            └── encuentraU/
+            └── finditunsa/
                 │
                 ├── Main.java
                 │
@@ -186,33 +186,40 @@ Esta alternativa permite compilar y ejecutar el proyecto sin instalar un entorno
 git clone URL_DEL_REPOSITORIO
 ```
 
-2. Abrir PowerShell y ubicarse en la carpeta principal `EncuentraU`.
+2. Abrir PowerShell y ubicarse en la carpeta principal `FindIt-UNSA`.
 
 3. Compilar los archivos Java:
 
+**Windows PowerShell:**
 ```powershell
-javac -d out (Get-ChildItem -Recurse src\main\java\*.java).FullName
+javac -d out (Get-ChildItem -Recurse src/main/java -Filter *.java).FullName
+```
+
+**Linux/macOS:**
+
+```bash
+javac -d out $(find src/main/java -name "*.java")
 ```
 
 4. Ejecutar el programa:
 
 ```powershell
-java -cp out encuentraU.Main
+java -cp out finditunsa.Main
 ```
 
-Si la compilación termina correctamente, aparecerá el menú principal de EncuentraU en la consola.
+Si la compilación termina correctamente, aparecerá el menú principal de FindIt-UNSA en la consola.
 
 ### Opción 2. Descargar desde GitHub y ejecutar desde un IDE
 
 Esta opción permite obtener el proyecto sin utilizar comandos de Git.
 
-1. Ingresar al repositorio de EncuentraU en GitHub.
+1. Ingresar al repositorio de FindIt-UNSA en GitHub.
 2. Presionar el botón **Code**.
 3. Seleccionar **Download ZIP**.
 4. Extraer el archivo descargado en una carpeta.
 5. Abrir el proyecto desde un IDE compatible con Java 21, como Apache NetBeans, IntelliJ IDEA o Visual Studio Code.
 6. Configurar JDK 21 y verificar que `src/main/java` esté reconocida como carpeta de fuentes.
-7. Ubicar la clase `Main.java`, dentro del paquete `encuentraU`.
+7. Ubicar la clase `Main.java`, dentro del paquete `finditunsa`.
 8. Ejecutar la clase principal.
 
 **Requisito:** ambas opciones necesitan tener instalado JDK 21.
