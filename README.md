@@ -209,7 +209,38 @@ java -cp out finditunsa.Main
 
 Si la compilación termina correctamente, aparecerá el menú principal de FindIt-UNSA en la consola.
 
-### Opción 2. Descargar desde GitHub y ejecutar desde un IDE
+### Opción 2. Ejecutar desde CMD (Windows)
+
+Esta alternativa permite compilar y ejecutar EncuentraU directamente desde el Símbolo del sistema, sin necesidad de abrir un entorno de desarrollo.
+
+1. Descargar el repositorio desde GitHub y extraerlo, o clonarlo con Git.
+2. Abrir CMD y ubicarse en la carpeta principal del proyecto:
+
+```cmd
+cd FindIt-UNSA
+```
+
+3. Generar la lista de archivos Java:
+
+```cmd
+dir /s /b src\main\java\*.java > archivos.txt
+```
+
+4. Compilar el proyecto:
+
+```cmd
+javac -d out @archivos.txt
+```
+
+5. Ejecutar la aplicación:
+
+```cmd
+java -cp out finditunsa.Main
+```
+
+Si la compilación se realiza correctamente, aparecerá el menú principal de EncuentraU en la consola.
+
+### Opción 3. Descargar desde GitHub y ejecutar desde un IDE
 
 Esta opción permite obtener el proyecto sin utilizar comandos de Git.
 
@@ -222,7 +253,7 @@ Esta opción permite obtener el proyecto sin utilizar comandos de Git.
 7. Ubicar la clase `Main.java`, dentro del paquete `finditunsa`.
 8. Ejecutar la clase principal.
 
-**Requisito:** ambas opciones necesitan tener instalado JDK 21.
+**Requisito:** las tres opciones necesitan tener instalado JDK 21.
 
 ## 8. Funcionalidades del Sprint 1
 
