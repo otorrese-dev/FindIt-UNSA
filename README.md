@@ -1,296 +1,169 @@
-# FINDIT-UNSA — SPRINT 1
+# FindIt UNSA
 
-## 1. Descripción del proyecto
+Sistema universitario de gestión de objetos perdidos y encontrados para la comunidad de la Universidad Nacional de San Agustín de Arequipa (UNSA).
 
-**FindIt-UNSA** es una aplicación desarrollada para gestionar objetos perdidos y encontrados dentro de una comunidad universitaria.
+El proyecto permite registrar objetos perdidos y encontrados, consultar reportes, identificar posibles coincidencias y gestionar el proceso de devolución mediante roles de usuario y administrador.
 
-Su propósito es facilitar el registro, búsqueda y recuperación de objetos, permitiendo que los usuarios reporten artículos que han perdido o encontrado. Además, el sistema permite identificar posibles coincidencias y gestionar las devoluciones.
+---
 
-El proyecto se desarrolla de manera incremental mediante tres sprints, aplicando los principios de programación orientada a objetos y metodologías ágiles.
+## 1. Estado del proyecto
 
-## 2. Objetivos del Sprint 1
+El desarrollo se organizó en dos fases principales:
 
-Durante este primer sprint se desarrollará la lógica principal del sistema mediante una aplicación de consola.
+- **Sprint 1 – Lógica de negocio:** implementación de modelos, servicios y reglas de negocio utilizando programación orientada a objetos y almacenamiento en memoria.
+- **Sprint 2 – Interfaz gráfica:** desarrollo de la interfaz con Java Swing, integración de los servicios y navegación según los roles del sistema.
 
-Los objetivos son:
+Durante la integración también se realizaron refactorizaciones y correcciones para mejorar el funcionamiento del sistema, especialmente en el proceso de devoluciones y la actualización de información.
 
-- Implementar el registro de usuarios y la autenticación.
-- Permitir el registro de objetos perdidos y encontrados.
-- Gestionar los reportes realizados por los usuarios.
-- Implementar la búsqueda y consulta de objetos.
-- Identificar posibles coincidencias entre reportes.
-- Gestionar las devoluciones de objetos.
-- Aplicar los principios de programación orientada a objetos.
-- Organizar el código para facilitar su integración en los siguientes sprints.
+## 2. Tecnologías utilizadas
 
-## 3. Tecnologías y herramientas utilizadas
+- **Lenguaje:** Java.
+- **Versión:** JDK 21.
+- **Interfaz gráfica:** Java Swing y AWT.
+- **Arquitectura:** organización por capas.
+- **Entorno de desarrollo:** IntelliJ IDEA, Eclipse, NetBeans o VS Code.
 
-| Tecnología / Herramienta | Uso |
-|---|---|
-| Java 21 | Lenguaje de programación utilizado para desarrollar el sistema. |
-| Apache NetBeans | Entorno de desarrollo compatible. |
-| IntelliJ IDEA | Entorno de desarrollo compatible. |
-| Visual Studio Code | Entorno de desarrollo compatible mediante las extensiones de Java. |
-| Git y GitHub | Control de versiones y colaboración. |
-| ArrayList y HashMap | Gestión temporal de información en memoria. |
+## 3. Funcionalidades principales
 
-**Importante:** El proyecto no depende de un entorno de desarrollo específico. Puede abrirse y ejecutarse desde cualquier IDE compatible con Java 21 o directamente desde la terminal, respetando la estructura de paquetes y las instrucciones de ejecución.
+### Usuario
 
-## 4. Requisitos previos
+- Iniciar sesión y registrar una cuenta.
+- Registrar objetos perdidos y encontrados.
+- Consultar y administrar sus propios reportes.
+- Buscar objetos mediante los filtros disponibles.
+- Consultar posibles coincidencias.
+- Solicitar la devolución de un objeto.
+- Consultar y actualizar su perfil.
 
-Para ejecutar FindIt-UNSA se necesita:
+### Administrador
 
-- Tener instalado **JDK 21**.
-- Disponer de una computadora con Windows, Linux o macOS.
-- Descargar el código fuente desde el repositorio de GitHub.
+- Consultar reportes registrados en el sistema.
+- Gestionar usuarios.
+- Revisar coincidencias.
+- Administrar las solicitudes de devolución.
+- Controlar las etapas del proceso de devolución.
 
-No es obligatorio instalar Apache NetBeans, IntelliJ IDEA o Visual Studio Code. Estos programas son alternativas para facilitar la visualización y ejecución del código.
+## 4. Distribución de responsabilidades
 
-Para comprobar que Java está instalado, ejecutar en una terminal:
+El proyecto fue desarrollado por tres integrantes, distribuyendo las actividades según los módulos de lógica de negocio y su correspondiente interfaz gráfica.
 
-```bash
-java -version
-javac -version
-```
+### Sprint 1 – Lógica de negocio
 
-Ambos comandos deben reconocer la versión 21 del JDK.
-
-## 5. Estructura del proyecto
-
-El proyecto debe organizarse de la siguiente manera:
-
-```text
-FindIt-UNSA/
-│
-├── README.md
-│
-├── docs/
-│   ├── arquitectura.md
-│   ├── distribucion_integrantes.md
-│   ├── integrante_1.md
-│   ├── integrante_2.md
-│   ├── integrante_3.md
-│   ├── arquitectura.md
-│   ├── contratos_integracion.md
-│   └── instrucciones_ejecucion.md
-│
-└── src/
-    └── main/
-        └── java/
-            └── finditunsa/
-                │
-                ├── Main.java
-                │
-                ├── modelos/
-                │   ├── Usuario.java
-                │   ├── Objeto.java
-                │   ├── Reporte.java
-                │   ├── ReportePerdido.java
-                │   ├── ReporteEncontrado.java
-                │   ├── Coincidencia.java
-                │   ├── Devolucion.java
-                │   ├── Rol.java
-                │   ├── EstadoReporte.java
-                │   └── CategoriaObjeto.java
-                │
-                ├── servicios/
-                │   ├── AutenticacionService.java
-                │   ├── ReporteService.java
-                │   ├── BusquedaService.java
-                │   ├── CoincidenciaService.java
-                │   └── DevolucionService.java
-                │
-                ├── repositorios/
-                │   └── UsuarioRepository.java
-                │
-                └── utilidades/
-                    └── Validador.java
-```
-
-### 5.1. Descripción de las carpetas
-
-| Carpeta | Contenido |
-|---|---|
-| `docs/` | Documentación general y distribución del trabajo. |
-| `modelos/` | Clases que representan las entidades del sistema. |
-| `servicios/` | Clases que contienen la lógica y operaciones del sistema. |
-| `repositorios/` | Clases encargadas de gestionar los datos en memoria. |
-| `utilidades/` | Funciones auxiliares y validaciones. |
-| `Main.java` | Punto de entrada y menú principal de consola. |
-
-## 6. Clases y distribución de responsabilidades
-
-El desarrollo se divide entre tres integrantes para facilitar el trabajo y la integración de los módulos.
-
-### 6.1. Integrante 1: Usuarios y autenticación
-
-| Clase | Tipo | Responsabilidad |
+| Integrante | Módulo | Clases y servicios |
 |---|---|---|
-| `Usuario` | Clase | Almacenar los datos del usuario. |
-| `AutenticacionService` | Servicio | Registrar usuarios e iniciar/cerrar sesión. |
-| `UsuarioRepository` | Repositorio | Gestionar usuarios temporalmente en memoria. |
-| `Rol` | Enum | Diferenciar usuario y administrador. |
+| **Integrante 1** | Usuarios y autenticación | `Usuario.java`, `Rol.java`, `UsuarioRepository.java`, `AutenticacionService.java`, `Validador.java`. |
+| **Integrante 2** | Objetos y reportes | `Objeto.java`, `Reporte.java`, `ReportePerdido.java`, `ReporteEncontrado.java`, `CategoriaObjeto.java`, `EstadoReporte.java`, `ReporteService.java`. |
+| **Integrante 3** | Búsqueda y devoluciones | `Coincidencia.java`, `Devolucion.java`, `BusquedaService.java`, `CoincidenciaService.java`, `DevolucionService.java`. |
 
-### 6.2. Integrante 2: Registro y gestión de objetos
+### Sprint 2 – Interfaz gráfica
 
-| Clase | Tipo | Responsabilidad |
+| Integrante | Módulo | Archivos y paneles |
 |---|---|---|
-| `Objeto` | Clase | Representar las características de un objeto. |
-| `Reporte` | Clase abstracta | Contener los datos comunes de los reportes. |
-| `ReportePerdido` | Clase | Representar un objeto que alguien perdió. |
-| `ReporteEncontrado` | Clase | Representar un objeto que alguien encontró. |
-| `ReporteService` | Servicio | Registrar, consultar y actualizar reportes. |
-| `EstadoReporte` | Enum | Definir los estados de un reporte. |
-| `CategoriaObjeto` | Enum | Clasificar los objetos. |
+| **Integrante 1** | Autenticación y usuarios | `LoginFrame.java`, `RegistroFrame.java`, `MiPerfilPanel.java`, `AdminUsuariosPanel.java`. |
+| **Integrante 2** | Gestión de reportes | `DialogoRegistro.java`, `MisReportesPanel.java`, `AdminReportesPanel.java`, `TablaReportes.java`. |
+| **Integrante 3** | Búsqueda y devoluciones | `BusquedaPanel.java`, `CoincidenciasPanel.java`, `DevolucionesPanel.java`, `AdminDevolucionesPanel.java`. |
+| **Todos** | Integración y navegación | `Main.java`, `DashboardFrame.java`, `MenuLateral.java`, `HeaderUsuario.java`, `InicioPanel.java`, `Estilos.java`. |
 
-### 6.3. Integrante 3: Búsqueda, coincidencias y devoluciones
+## 5. Refactorizaciones y correcciones
 
-| Clase | Tipo | Responsabilidad |
+Durante la integración del Sprint 1 con el Sprint 2 se realizaron modificaciones para adaptar la lógica de negocio a los nuevos requerimientos.
+
+| Archivo | Responsable | Modificación |
 |---|---|---|
-| `BusquedaService` | Servicio | Buscar y filtrar objetos. |
-| `Coincidencia` | Clase | Representar una posible coincidencia. |
-| `CoincidenciaService` | Servicio | Comparar reportes perdidos y encontrados. |
-| `Devolucion` | Clase | Registrar la devolución de un objeto. |
-| `DevolucionService` | Servicio | Gestionar las devoluciones. |
+| `EstadoDevolucion.java` | Integrante 3 | Creación de un enumerado para representar los cuatro estados de devolución. |
+| `Devolucion.java` | Integrante 3 | Adaptación de la entidad para incluir el estado actual y las fechas de solicitud y entrega. |
+| `DevolucionService.java` | Integrante 3 | Implementación de una máquina de estados mediante los métodos `solicitar()`, `verificar()`, `autorizar()` y `entregar()`. |
+| `CoincidenciaService.java` | Integrante 3 | Corrección del contador `secuenciaId` para reiniciarlo al recalcular las coincidencias. |
+| `AutenticacionService.java` | Integrante 1 | Incorporación del método `actualizarPerfil()` para permitir la edición de datos del usuario. |
+| `InicioPanel.java` | Integrante 2 | Incorporación del método `refrescar()` para actualizar las estadísticas y los reportes al regresar a la vista de inicio. |
 
-### 6.4. Clases generales de integración
+### Flujo de devolución
 
-Estas clases se crean para conectar los módulos:
+El proceso de devolución utiliza cuatro estados:
 
-| Clase | Responsabilidad |
-|---|---|
-| `Main` | Ejecutar el programa y mostrar el menú principal. |
-| `Validador` | Validar datos ingresados por consola. |
+1. **SOLICITADA:** el usuario registra una solicitud de devolución.
+2. **VERIFICADA:** el administrador comprueba la información del hallazgo.
+3. **AUTORIZADA:** el administrador aprueba la entrega.
+4. **ENTREGADA:** se concreta la devolución y se actualiza el estado de los reportes correspondientes a `DEVUELTO`.
 
-### 6.5. Resumen general
+## 6. Arquitectura del sistema
 
-**Total: 18 archivos entre clases y enumeraciones.**
+El proyecto utiliza una arquitectura en capas para separar las responsabilidades y facilitar el mantenimiento.
 
-| Responsable | Cantidad de archivos |
-|---|---:|
-| Integrante 1 | 4 |
-| Integrante 2 | 7 |
-| Integrante 3 | 5 |
-| Integración general | 2 |
-| **Total** | **18** |
+1. **Modelos:** representan las entidades del sistema, como `Usuario`, `Objeto`, `Reporte`, `Coincidencia` y `Devolucion`.
+2. **Repositorios:** administran el almacenamiento temporal de los datos.
+3. **Servicios:** contienen las reglas de negocio y las operaciones del sistema.
+4. **Interfaz gráfica:** presenta las ventanas, formularios, tablas y paneles desarrollados con Java Swing.
+5. **Main:** inicializa los servicios y ejecuta la aplicación.
 
-## 7. Formas de obtener y ejecutar el proyecto
+### Navegación
 
-### Opción 1. Ejecutar desde la terminal (Windows - PowerShell)
+La ventana principal `DashboardFrame` utiliza `BorderLayout` para organizar sus componentes y `CardLayout` para alternar entre los diferentes paneles.
 
-Esta alternativa permite compilar y ejecutar el proyecto sin instalar un entorno de desarrollo.
+La navegación se centraliza mediante `ActionListener`, `setActionCommand()` y `getActionCommand()`.
 
-1. Descargar el repositorio desde GitHub o clonarlo:
+Las opciones disponibles dependen del rol del usuario autenticado.
 
-```bash
-git clone URL_DEL_REPOSITORIO
-```
+## 7. Reglas de desarrollo
 
-2. Abrir PowerShell y ubicarse en la carpeta principal `FindIt-UNSA`.
+Para mantener la organización del proyecto se establecieron las siguientes reglas:
 
-3. Compilar los archivos Java:
+1. **No duplicar lógica de negocio:** los paneles de interfaz deben invocar los métodos de los servicios, sin implementar directamente las reglas del sistema.
+2. **Navegación centralizada:** `DashboardFrame` administra el cambio entre paneles mediante `CardLayout`.
+3. **Separación de responsabilidades:** cada integrante trabaja principalmente en el módulo que tiene asignado.
+4. **Coordinación de cambios:** las modificaciones sobre clases desarrolladas por otro integrante deben realizarse previa coordinación y documentarse.
+5. **Actualización de información:** las vistas deben reflejar los cambios realizados en los datos del sistema.
 
-**Windows PowerShell:**
-```powershell
-javac -d out (Get-ChildItem -Recurse src/main/java -Filter *.java).FullName
-```
+## 8. Requisitos de ejecución
 
-**Linux/macOS:**
+- Tener instalado **Java JDK 21**.
+- Disponer de una terminal o IDE compatible con Java.
+- No se requieren dependencias externas para ejecutar la versión actual.
 
-```bash
-javac -d out $(find src/main/java -name "*.java")
-```
+## 9. Compilación y ejecución
 
-4. Ejecutar el programa:
+Abrir una terminal en la carpeta raíz del proyecto.
 
-```powershell
-java -cp out finditunsa.Main
-```
+### Windows (CMD)
 
-Si la compilación termina correctamente, aparecerá el menú principal de FindIt-UNSA en la consola.
-
-### Opción 2. Ejecutar desde CMD (Windows)
-
-Esta alternativa permite compilar y ejecutar EncuentraU directamente desde el Símbolo del sistema, sin necesidad de abrir un entorno de desarrollo.
-
-1. Descargar el repositorio desde GitHub y extraerlo, o clonarlo con Git.
-2. Abrir CMD y ubicarse en la carpeta principal del proyecto:
+Compilar todas las clases:
 
 ```cmd
-cd FindIt-UNSA
+if not exist out mkdir out
+(for /r src\main\java %f in (*.java) do @echo "%f") > fuentes.txt
+javac -encoding UTF-8 -d out @fuentes.txt
 ```
 
-3. Generar la lista de archivos Java:
-
-```cmd
-dir /s /b src\main\java\*.java > archivos.txt
-```
-
-4. Compilar el proyecto:
-
-```cmd
-javac -d out @archivos.txt
-```
-
-5. Ejecutar la aplicación:
+Ejecutar la aplicación:
 
 ```cmd
 java -cp out finditunsa.Main
 ```
 
-Si la compilación se realiza correctamente, aparecerá el menú principal de EncuentraU en la consola.
+### Linux / macOS
 
-### Opción 3. Descargar desde GitHub y ejecutar desde un IDE
+Compilar:
 
-Esta opción permite obtener el proyecto sin utilizar comandos de Git.
+```bash
+mkdir -p out
+javac -encoding UTF-8 -d out $(find src/main/java -name "*.java")
+```
 
-1. Ingresar al repositorio de FindIt-UNSA en GitHub.
-2. Presionar el botón **Code**.
-3. Seleccionar **Download ZIP**.
-4. Extraer el archivo descargado en una carpeta.
-5. Abrir el proyecto desde un IDE compatible con Java 21, como Apache NetBeans, IntelliJ IDEA o Visual Studio Code.
-6. Configurar JDK 21 y verificar que `src/main/java` esté reconocida como carpeta de fuentes.
-7. Ubicar la clase `Main.java`, dentro del paquete `finditunsa`.
-8. Ejecutar la clase principal.
+Ejecutar:
 
-**Requisito:** las tres opciones necesitan tener instalado JDK 21.
+```bash
+java -cp out finditunsa.Main
+```
 
-## 8. Funcionalidades del Sprint 1
+## 10. Consideraciones
 
-| Módulo | Funcionalidades |
-|---|---|
-| Usuarios | Registro, inicio y cierre de sesión. |
-| Objetos | Registro de objetos perdidos y encontrados. |
-| Reportes | Consulta y actualización de reportes. |
-| Búsqueda | Búsqueda y filtrado de objetos. |
-| Coincidencias | Identificación de posibles coincidencias. |
-| Devoluciones | Registro y gestión de devoluciones. |
+- **Almacenamiento:** los datos se mantienen en memoria RAM. Al cerrar la aplicación, los registros creados durante la ejecución se pierden.
+- **Interfaz:** se utilizan administradores de diseño (*Layout Managers*) para organizar los componentes, evitando depender del posicionamiento absoluto.
+- **Roles:** el menú y los paneles disponibles dependen del tipo de usuario autenticado.
+- **Mantenimiento:** la separación por capas facilita realizar modificaciones sin afectar innecesariamente a los demás módulos.
 
-**Nota:** Al cerrar el programa, los datos almacenados en memoria se pierden. La persistencia en una base de datos se incorporará durante el Sprint 3.
+---
 
-## 9. Documentación del proyecto
-
-La carpeta `docs/` contiene los documentos necesarios para organizar y comprender el desarrollo:
-
-| Archivo | Descripción |
-|---|---|
-| `arquitectura.md` | Lista de clases y estructura del Sprint 1. |
-| `distribucion_integrantes.md` | Distribución general de responsabilidades. |
-| `integrante_1.md` | Tareas correspondientes al integrante 1. |
-| `integrante_2.md` | Tareas correspondientes al integrante 2. |
-| `integrante_3.md` | Tareas correspondientes al integrante 3. |
-| `arquitectura.md` | Organización y relación entre los módulos. |
-| `contratos_integracion.md` | Acuerdos para conectar las clases y servicios. |
-| `instrucciones_ejecucion.md` | Indicaciones adicionales para ejecutar el programa. |
-
-## 10. Progresión de los siguientes sprints
-
-El proyecto se desarrollará en tres etapas:
-
-| Sprint | Desarrollo |
-|---|---|
-| **Sprint 1** | Lógica del sistema mediante consola y almacenamiento temporal en memoria. |
-| **Sprint 2** | Interfaz gráfica con Java Swing e integración con la lógica existente. |
-| **Sprint 3** | Base de datos MySQL y conexión mediante JDBC. |
-
-La estructura presentada corresponde al Sprint 1. En los siguientes sprints se podrán agregar nuevas carpetas y clases sin necesidad de modificar toda la organización del proyecto.
+**FindIt UNSA**  
+Sistema de gestión de objetos perdidos y encontrados.  
+Universidad Nacional de San Agustín de Arequipa.
