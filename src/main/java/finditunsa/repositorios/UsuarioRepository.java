@@ -62,6 +62,25 @@ public class UsuarioRepository {
         return Optional.ofNullable(usuariosPorCorreo.get(correo.trim().toLowerCase()));
     }
 
+    // METODO PARA ACTUALIZAR EL CORREO
+    public void actualizarCorreo(String correoAnterior, Usuario usuario) {
+        // Validar que el usuario no sea nulo
+        if (usuario == null) {
+            throw new IllegalArgumentException("El usuario no puede ser nulo.");
+        }
+
+        // Normalizar y asignar el nuevo correo al objeto usuario
+        String nuevoNormalizado = usuario.getCorreo().trim().toLowerCase();
+        usuario.setCorreo(nuevoNormalizado);
+
+        // Eliminar la clave del correo anterior en el mapa si existe
+        if (correoAnterior != null) {
+            usuariosPorCorreo.remove(correoAnterior.trim().toLowerCase());
+        }
+        // Registrar el usuario bajo la nueva clave de correo
+        usuariosPorCorreo.put(nuevoNormalizado, usuario);
+    }
+
     // METODO PARA BUSCAR POR ID
     public Optional<Usuario> buscarPorId(int id) {
         // Recorrer la lista buscando coincidencia de ID
