@@ -79,4 +79,40 @@ public class AutenticacionService {
     public boolean esAdministrador() {
         return usuarioActual != null && usuarioActual.esAdministrador();
     }
+
+    // METODO PARA ACTUALIZAR DATOS DEL PERFIL DEL USUARIO EN SESION
+    public void actualizarPerfil(String nuevoNombre, String nuevoCorreo, String nuevaContrasena) {
+        // Verificar que exista un usuario autenticado
+        if (!estaAutenticado()) {
+            throw new IllegalStateException("No hay sesión activa.");
+        }
+
+        Usuario u = getUsuarioActual();
+        // Validar formato de nombre y correo
+        Validador.validarTextoNoVacio(nuevoNombre, "nombre");
+        Validador.validarCorreo(nuevoCorreo);
+
+        String correoAnterior = u.getCorreo();
+        String correoLimpio = nuevoCorreo.trim().toLowerCase();
+
+        // Evitar duplicados si el usuario cambió su correo por uno ya existente
+        if (!correoAnterior.equalsIgnoreCase(correoLimpio) && usuarioRepository.existeCorreo(correoLimpio)) {
+            throw new IllegalArgumentException("Ese correo ya está registrado por otro usuario.");
+        }
+
+        // Validar nueva contraseña solo si el campo no llegó vacío
+        boolean cambiarClave = nuevaContrasena != null && !nuevaContrasena.isEmpty();
+        if (cambiarClave) {
+            Validador.validarContrasena(nuevaContrasena);
+        }
+
+        // Actualizar atributos en el objeto y sincronizar clave en el repositorio
+        u.setNombre(nuevoNombre.trim());
+        u.setCorreo(correoLimpio);
+        usuarioRepository.actualizarCorreo(correoAnterior, u);
+
+        if (cambiarClave) {
+            u.setContrasena(nuevaContrasena);
+        }
+    }
 }
