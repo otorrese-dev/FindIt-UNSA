@@ -43,7 +43,74 @@ Durante la integración también se realizaron refactorizaciones y correcciones 
 - Administrar las solicitudes de devolución.
 - Controlar las etapas del proceso de devolución.
 
-## 4. Distribución de responsabilidades
+## 4. Estructura del proyecto
+
+El repositorio está organizado de la siguiente manera:
+
+```text
+FindIt-UNSA/
+├── README.md
+├── docs/
+│   ├── arquitectura.md
+│   ├── clases_sprint1.md
+│   ├── contratos_integracion.md
+│   ├── distribucion_integrantes.md
+│   ├── instrucciones_ejecucion.md
+│   ├── integrante_1.md
+│   ├── integrante_2.md
+│   ├── integrante_3.md
+│   └── sprint2.md
+└── src/
+    └── main/
+        └── java/
+            └── finditunsa/
+                ├── Main.java
+                ├── modelos/
+                │   ├── CategoriaObjeto.java
+                │   ├── Coincidencia.java
+                │   ├── Devolucion.java
+                │   ├── EstadoDevolucion.java
+                │   ├── EstadoReporte.java
+                │   ├── Objeto.java
+                │   ├── Reporte.java
+                │   ├── ReporteEncontrado.java
+                │   ├── ReportePerdido.java
+                │   ├── Rol.java
+                │   └── Usuario.java
+                ├── repositorios/
+                │   └── UsuarioRepository.java
+                ├── servicios/
+                │   ├── AutenticacionService.java
+                │   ├── BusquedaService.java
+                │   ├── CoincidenciaService.java
+                │   ├── DevolucionService.java
+                │   └── ReporteService.java
+                ├── utilidades/
+                │   └── Validador.java
+                └── interfaz/
+                    ├── DashboardFrame.java
+                    ├── LoginFrame.java
+                    ├── RegistroFrame.java
+                    ├── componentes/
+                    │   ├── Estilos.java
+                    │   ├── HeaderUsuario.java
+                    │   ├── MenuLateral.java
+                    │   ├── TablaReportes.java
+                    │   └── TarjetaEstadistica.java
+                    └── paneles/
+                        ├── AdminDevolucionesPanel.java
+                        ├── AdminReportesPanel.java
+                        ├── AdminUsuariosPanel.java
+                        ├── BusquedaPanel.java
+                        ├── CoincidenciasPanel.java
+                        ├── DevolucionesPanel.java
+                        ├── DialogoRegistro.java
+                        ├── InicioPanel.java
+                        ├── MiPerfilPanel.java
+                        └── MisReportesPanel.java
+```
+
+## 5. Distribución de responsabilidades
 
 El proyecto fue desarrollado por tres integrantes, distribuyendo las actividades según los módulos de lógica de negocio y su correspondiente interfaz gráfica.
 
@@ -64,7 +131,7 @@ El proyecto fue desarrollado por tres integrantes, distribuyendo las actividades
 | **Integrante 3** | Búsqueda y devoluciones | `BusquedaPanel.java`, `CoincidenciasPanel.java`, `DevolucionesPanel.java`, `AdminDevolucionesPanel.java`. |
 | **Todos** | Integración y navegación | `Main.java`, `DashboardFrame.java`, `MenuLateral.java`, `HeaderUsuario.java`, `InicioPanel.java`, `Estilos.java`. |
 
-## 5. Refactorizaciones y correcciones
+## 6. Refactorizaciones y correcciones
 
 Durante la integración del Sprint 1 con el Sprint 2 se realizaron modificaciones para adaptar la lógica de negocio a los nuevos requerimientos.
 
@@ -86,7 +153,7 @@ El proceso de devolución utiliza cuatro estados:
 3. **AUTORIZADA:** el administrador aprueba la entrega.
 4. **ENTREGADA:** se concreta la devolución y se actualiza el estado de los reportes correspondientes a `DEVUELTO`.
 
-## 6. Arquitectura del sistema
+## 7. Arquitectura del sistema
 
 El proyecto utiliza una arquitectura en capas para separar las responsabilidades y facilitar el mantenimiento.
 
@@ -104,7 +171,7 @@ La navegación se centraliza mediante `ActionListener`, `setActionCommand()` y `
 
 Las opciones disponibles dependen del rol del usuario autenticado.
 
-## 7. Reglas de desarrollo
+## 8. Reglas de desarrollo
 
 Para mantener la organización del proyecto se establecieron las siguientes reglas:
 
@@ -114,13 +181,13 @@ Para mantener la organización del proyecto se establecieron las siguientes regl
 4. **Coordinación de cambios:** las modificaciones sobre clases desarrolladas por otro integrante deben realizarse previa coordinación y documentarse.
 5. **Actualización de información:** las vistas deben reflejar los cambios realizados en los datos del sistema.
 
-## 8. Requisitos de ejecución
+## 9. Requisitos de ejecución
 
 - Tener instalado **Java JDK 21**.
 - Disponer de una terminal o IDE compatible con Java.
 - No se requieren dependencias externas para ejecutar la versión actual.
 
-## 9. Compilación y ejecución
+## 10. Compilación y ejecución
 
 Abrir una terminal en la carpeta raíz del proyecto.
 
@@ -155,7 +222,7 @@ Ejecutar:
 java -cp out finditunsa.Main
 ```
 
-## 10. Consideraciones
+## 11. Consideraciones
 
 - **Almacenamiento:** los datos se mantienen en memoria RAM. Al cerrar la aplicación, los registros creados durante la ejecución se pierden.
 - **Interfaz:** se utilizan administradores de diseño (*Layout Managers*) para organizar los componentes, evitando depender del posicionamiento absoluto.
