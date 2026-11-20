@@ -4,46 +4,40 @@ import finditunsa.modelos.*;
 import finditunsa.utilidades.Validador;
 
 import java.util.ArrayList;
-import java.util.List;
 
-//RESPONSABLE: INTEGRANTE 3
-//MODULO: Búsqueda, coincidencias y devoluciones
-//DESCRIPCION: Calcula posibles coincidencias entre reportes perdidos y encontrados.
+// RESPONSABLE: INTEGRANTE 3
+// MODULO: Búsqueda, coincidencias y devoluciones
+// DESCRIPCION: Calcula posibles coincidencias entre reportes perdidos y encontrados.
 public class CoincidenciaService {
-    // Umbral mínimo de puntos requerido para considerar que dos reportes hacen "match"
     private static final int PUNTAJE_MINIMO = 3;
 
-    // Servicio inyectado para acceder a las listas de reportes del sistema
     private final ReporteService reporteService;
-
-    // Lista interna para almacenar el historial de coincidencias generadas
-    private final List<Coincidencia> coincidencias = new ArrayList<>();
-
-    // Autoincremental para generar identificadores únicos (ID) para cada coincidencia
+    private final ArrayList<Coincidencia> coincidencias = new ArrayList<>();
     private int secuenciaId = 1;
 
-    // Constructor del servicio de coincidencias.
     public CoincidenciaService(ReporteService reporteService) {
         this.reporteService = reporteService;
     }
 
-    //Recorre todos los reportes activos (no devueltos) y los compara cruzadamente 
-    //(todos contra todos) para identificar coincidencias que superen el puntaje mínimo.
-    public List<Coincidencia> generarCoincidencias() {
-        // Limpia el historial de coincidencias anteriores antes de calcular las nuevas
+    // Cruza todos los reportes perdidos y encontrados activos para detectar posibles emparejamientos
+    // que superen el umbral mínimo de puntuación.
+    public ArrayList<Coincidencia> generarCoincidencias() {
         coincidencias.clear();
+        secuenciaId = 1;
 
-        // Bucle anidado para comparar cada reporte perdido contra cada reporte encontrado
         for (ReportePerdido perdido : reporteService.listarPerdidos()) {
-
             for (ReporteEncontrado encontrado : reporteService.listarEncontrados()) {
-                // Regla de negocio: Si alguno de los dos reportes ya fue devuelto a su dueño, se ignora la comparación
+                // Omite reportes que ya fueron cerrados/devueltos
                 if (perdido.getEstado() == EstadoReporte.DEVUELTO
                         || encontrado.getEstado() == EstadoReporte.DEVUELTO) {
                     continue;
                 }
 
-                // Evalúa la similitud entre los objetos del reporte perdido y encontrado
+                // Evita emparejar reportes creados por el mismo usuario
+                if (perdido.getUsuario().getId() == encontrado.getUsuario().getId()) {
+                    continue;
+                }
+
                 ResultadoCoincidencia resultado = evaluar(perdido, encontrado);
                 if (resultado.puntaje >= PUNTAJE_MINIMO) {
                     coincidencias.add(new Coincidencia(
@@ -57,27 +51,22 @@ public class CoincidenciaService {
             }
         }
 
-        // Retorna una copia defensiva de la lista de coincidencias para proteger la lista interna
         return new ArrayList<>(coincidencias);
     }
 
-    public List<Coincidencia> listarCoincidencias() {
+    public ArrayList<Coincidencia> listarCoincidencias() {
         return new ArrayList<>(coincidencias);
     }
 
-    //Aplica la ponderación del algoritmo evaluando atributo por atributo de ambos objetos 
-    // Ponderaciones:
-    // -Nombre similar: +3 pts
-    // -Misma categoría: +2 pts
-    // -Mismo color, marca, ubicación o características similares: +1 pt c/u
+    // Calcula el puntaje de similitud ponderando atributos clave de ambos objetos
+    // (nombre: +3, categoría: +2, color/marca/ubicación/características: +1 c/u).
     private ResultadoCoincidencia evaluar(ReportePerdido perdido, ReporteEncontrado encontrado) {
         Objeto a = perdido.getObjeto();
         Objeto b = encontrado.getObjeto();
 
         int puntaje = 0;
-        List<String> caracteristicas = new ArrayList<>();
-        
-        // Criterios
+        ArrayList<String> caracteristicas = new ArrayList<>();
+
         if (sonSimilares(a.getNombre(), b.getNombre())) {
             puntaje += 3;
             caracteristicas.add("Nombre similar");
@@ -112,27 +101,27 @@ public class CoincidenciaService {
         return new ResultadoCoincidencia(puntaje, caracteristicas);
     }
 
-    // Verifica si dos cadenas son exactamente iguales tras normalizarlas (sin tildes/mayúsculas).
+    // Compara coincidencia exacta tras normalizar mayúsculas, tildes y espacios.
     private boolean sonIguales(String a, String b) {
         String na = Validador.normalizar(a);
         String nb = Validador.normalizar(b);
         return !na.isEmpty() && !nb.isEmpty() && na.equals(nb);
     }
 
-    // Verifica si una cadena contiene a la otra tras normalizarlas.
+    // Verifica inclusión parcial entre cadenas normalizadas (ej. "mochila" en "mochila negra").
     private boolean sonSimilares(String a, String b) {
         String na = Validador.normalizar(a);
         String nb = Validador.normalizar(b);
         return !na.isEmpty() && !nb.isEmpty() && (na.contains(nb) || nb.contains(na));
     }
 
-    //Clase interna contenedora (Data Transfer Object local) para encapsular
-    //de forma temporal el puntaje y las razones de la coincidencia durante la evaluación.
+
+    // Estructura interna auxiliar para transportar el puntaje y criterios acertados en cada evaluación.
     private static class ResultadoCoincidencia {
         private final int puntaje;
-        private final List<String> caracteristicas;
+        private final ArrayList<String> caracteristicas;
 
-        private ResultadoCoincidencia(int puntaje, List<String> caracteristicas) {
+        private ResultadoCoincidencia(int puntaje, ArrayList<String> caracteristicas) {
             this.puntaje = puntaje;
             this.caracteristicas = caracteristicas;
         }
