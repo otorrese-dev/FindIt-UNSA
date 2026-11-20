@@ -2,74 +2,58 @@ package finditunsa.modelos;
 
 import java.time.LocalDateTime;
 
-// RESPONSABLE: INTEGRANTE 3
-// MODULO: Búsqueda, coincidencias y devoluciones
-// DESCRIPCION: Registra la devolución de un objeto recuperado.
 public class Devolucion {
-    // Identificador único de la devolución en el sistema
+    // Atributos
     private int id;
-
-    // Referencia al reporte del objeto que fue extraviado
     private ReportePerdido reportePerdido;
-
-    // Referencia al reporte del objeto hallado
     private ReporteEncontrado reporteEncontrado;
-
-    // Usuario
-    private Usuario registradoPor;
-
-    // Marca de tiempo con la fecha y hora exacta en que se registró la entrega
-    private LocalDateTime fechaDevolucion;
-
-    // Notas adicionales sobre la entrega
+    private Usuario solicitante;
+    private EstadoDevolucion estado;
     private String observaciones;
+    private LocalDateTime fechaSolicitud;
+    private LocalDateTime fechaEntrega;
 
-    // Constructor principal para registrar una entrega/devolución.
-    public Devolucion(int id, ReportePerdido reportePerdido,
-                      ReporteEncontrado reporteEncontrado,
-                      Usuario registradoPor, String observaciones) {
+    // Constructor sobrecargado
+    public Devolucion(int id, ReportePerdido reportePerdido, ReporteEncontrado reporteEncontrado,
+                      Usuario solicitante, String observaciones) {
         this.id = id;
         this.reportePerdido = reportePerdido;
         this.reporteEncontrado = reporteEncontrado;
-        this.registradoPor = registradoPor;
-
-        // Asigna de forma automática la fecha y hora actual del sistema al momento de la entrega
-        this.fechaDevolucion = LocalDateTime.now();
-
-        // Protección contra NullPointer: si no se pasan observaciones, se asigna una cadena vacía
+        this.solicitante = solicitante;
         this.observaciones = observaciones != null ? observaciones : "";
+        this.estado = EstadoDevolucion.SOLICITADA;
+        this.fechaSolicitud = LocalDateTime.now();
     }
 
-    // Getters
+    // Getters y Setters
     public int getId() {
-        return id;
+        return id; 
     }
-
-    public ReportePerdido getReportePerdido() {
-        return reportePerdido;
+    public ReportePerdido getReportePerdido() { 
+        return reportePerdido; 
     }
-
-    public ReporteEncontrado getReporteEncontrado() {
-        return reporteEncontrado;
+    public ReporteEncontrado getReporteEncontrado() { 
+        return reporteEncontrado; 
     }
-
-    public Usuario getRegistradoPor() {
-        return registradoPor;
+    public Usuario getSolicitante() { 
+        return solicitante; 
     }
-
-    public LocalDateTime getFechaDevolucion() {
-        return fechaDevolucion;
+    public EstadoDevolucion getEstado() { 
+        return estado; 
     }
-
-    public String getObservaciones() {
-        return observaciones;
+    public void setEstado(EstadoDevolucion estado) { 
+        this.estado = estado; 
     }
-
-    @Override
-    public String toString() {
-        return "Devolucion #" + id +
-                " | Perdido: " + reportePerdido.getId() +
-                " | Encontrado: " + reporteEncontrado.getId() +
-                " | Registrado por: " + (registradoPor != null ? registradoPor.getNombre() : "N/A");
+    public String getObservaciones() { 
+        return observaciones; 
+    }
+    public LocalDateTime getFechaSolicitud() { 
+        return fechaSolicitud; 
+    }
+    public LocalDateTime getFechaEntrega() { 
+        return fechaEntrega; 
+    }
+    public void setFechaEntrega(LocalDateTime fechaEntrega) { 
+        this.fechaEntrega = fechaEntrega; 
     }
 }
