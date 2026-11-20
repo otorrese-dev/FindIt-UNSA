@@ -2,82 +2,83 @@ package finditunsa.servicios;
 
 import finditunsa.modelos.*;
 import finditunsa.utilidades.Validador;
-
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-
-// RESPONSABLE: INTEGRANTE 3
-// MODULO: Búsqueda, coincidencias y devoluciones
-// DESCRIPCION: Registra devoluciones y actualiza estados de los reportes.
+// Servicio que gestiona el ciclo de vida de las devoluciones:
+// solicitud, verificación, autorización y entrega final.
 public class DevolucionService {
-
-    // Servicio inyectado para buscar y modificar los reportes registrados
     private final ReporteService reporteService;
-
-    // Lista interna que almacena el historial de devoluciones concretadas
     private final List<Devolucion> devoluciones = new ArrayList<>();
-
-    // Contador autoincremental para asignar un ID único a cada devolución
     private int secuenciaId = 1;
 
-    // Constructor principal del servicio de devoluciones.
     public DevolucionService(ReporteService reporteService) {
         this.reporteService = reporteService;
     }
 
+    // Valida la existencia y el tipo de ambos reportes antes de registrar una nueva solicitud. 
+    public Devolucion solicitar(int idPerdido, int idEncontrado, Usuario solicitante, String obs) {
+        Validador.validarNoNulo(solicitante, "solicitante");
+        Reporte perdido = reporteService.buscarPorId(idPerdido)
+                .orElseThrow(() -> new IllegalArgumentException("No existe reporte perdido con ID " + idPerdido));
+        Reporte encontrado = reporteService.buscarPorId(idEncontrado)
+                .orElseThrow(() -> new IllegalArgumentException("No existe reporte encontrado con ID " + idEncontrado));
 
-    // Procesa y registra formalmente la devolución de un objeto a su dueño.
-    // Realiza cinco validaciones críticas antes de confirmar la transacción y cambiar estados.
-    public Devolucion registrarDevolucion(int idPerdido, int idEncontrado,
-                                          Usuario responsable, String observaciones) {
-        // 1. Validación de seguridad: verifica que exista un usuario responsable autenticado/válido
-        Validador.validarNoNulo(responsable, "responsable");
-
-        // 2. Búsqueda de existencia: obtiene los reportes o lanza excepción si los IDs no existen (uso de Optional)
-        Reporte reportePerdido = reporteService.buscarPorId(idPerdido)
-                .orElseThrow(() -> new IllegalArgumentException("No existe el reporte perdido con ID " + idPerdido));
-
-        Reporte reporteEncontrado = reporteService.buscarPorId(idEncontrado)
-                .orElseThrow(() -> new IllegalArgumentException("No existe el reporte encontrado con ID " + idEncontrado));
-
-        // 3. Validación de polimorfismo/tipo: asegura que el primer ID corresponda realmente a un ReportePerdido
-        if (!(reportePerdido instanceof ReportePerdido)) {
-            throw new IllegalArgumentException("El ID " + idPerdido + " no corresponde a un reporte perdido.");
+        // Asegura que los IDs correspondan exactamente a un reporte perdido y uno encontrado
+        if (!(perdido instanceof ReportePerdido) || !(encontrado instanceof ReporteEncontrado)) {
+            throw new IllegalArgumentException("Los IDs no corresponden al tipo de reporte correcto.");
         }
 
-        // 4. Validación de polimorfismo/tipo: asegura que el segundo ID corresponda realmente a un ReporteEncontrado
-        if (!(reporteEncontrado instanceof ReporteEncontrado)) {
-            throw new IllegalArgumentException("El ID " + idEncontrado + " no corresponde a un reporte encontrado.");
-        }
-
-        // 5. Validación de estado de negocio: impide procesar reportes que ya fueron cerrados/entregados previamente
-        if (reportePerdido.getEstado() == EstadoReporte.DEVUELTO
-                || reporteEncontrado.getEstado() == EstadoReporte.DEVUELTO) {
-            throw new IllegalArgumentException("Uno de los reportes ya fue devuelto.");
-        }
-
-        // Creación del registro de devolución realizando el casteo seguro de tipos
-        Devolucion devolucion = new Devolucion(
-                secuenciaId++,
-                (ReportePerdido) reportePerdido,
-                (ReporteEncontrado) reporteEncontrado,
-                responsable,
-                observaciones
-        );
-
-        // Actualización de estados
-        reportePerdido.setEstado(EstadoReporte.DEVUELTO);
-        reporteEncontrado.setEstado(EstadoReporte.DEVUELTO);
-
-        // Almacena el registro en la lista histórica y lo devuelve
-        devoluciones.add(devolucion);
-        return devolucion;
+        Devolucion dev = new Devolucion(secuenciaId++, (ReportePerdido) perdido, (ReporteEncontrado) encontrado, solicitante, obs);
+        devoluciones.add(dev);
+        return dev;
     }
 
-    // Obtiene el historial completo de devoluciones registradas.
-    // Una copia defensiva de la lista de devoluciones para proteger la colección interna.
-    public List<Devolucion> listarDevoluciones() {
-        return new ArrayList<>(devoluciones);
+    public void verificar(int idDevolucion) {
+        Devolucion dev = buscarPorId(idDevolucion);
+        if (dev.getEstado() != EstadoDevolucion.SOLICITADA) throw new IllegalStateException("La devolución no está en estado SOLICITADA.");
+        dev.setEstado(EstadoDevolucion.VERIFICADA);
+    }
+
+    public void autorizar(int idDevolucion) {
+        Devolucion dev = buscarPorId(idDevolucion);
+        if (dev.getEstado() != EstadoDevolucion.VERIFICADA) throw new IllegalStateException("La devolución no está en estado VERIFICADA.");
+        dev.setEstado(EstadoDevolucion.AUTORIZADA);
+    }
+
+    // Finaliza la devolución registrando la fecha de entrega y cerrando ambos reportes vinculados.
+    public void entregar(int idDevolucion) {
+        Devolucion dev = buscarPorId(idDevolucion);
+        if (dev.getEstado() != EstadoDevolucion.AUTORIZADA) throw new IllegalStateException("La devolución no está en estado AUTORIZADA.");
+        
+        dev.setEstado(EstadoDevolucion.ENTREGADA);
+        dev.setFechaEntrega(LocalDateTime.now());
+        
+        // Marca tanto el reporte perdido como el encontrado como DEVUELTO
+        reporteService.actualizarEstado(dev.getReportePerdido().getId(), EstadoReporte.DEVUELTO);
+        reporteService.actualizarEstado(dev.getReporteEncontrado().getId(), EstadoReporte.DEVUELTO);
+    }
+
+    public Devolucion buscarPorId(int id) {
+        for (Devolucion d : devoluciones) {
+            if (d.getId() == id) return d;
+        }
+        throw new IllegalArgumentException("No existe devolución con ID " + id);
+    }
+
+    public List<Devolucion> listarTodas() { 
+        return new ArrayList<>(devoluciones); 
+    }
+
+    // Filtra y retorna únicamente las solicitudes registradas por un usuario específico.
+    public List<Devolucion> listarPorSolicitante(Usuario usuario) {
+        List<Devolucion> resultado = new ArrayList<>();
+        for (Devolucion d : devoluciones) {
+            if (d.getSolicitante().getId() == usuario.getId()) {
+                resultado.add(d);
+            }
+        }
+        return resultado;
     }
 }
