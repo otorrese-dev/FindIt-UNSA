@@ -1,21 +1,17 @@
-# Integrante 1 - Usuarios y autenticación
+# Integrante 1 - Autenticación y Gestión de Usuarios
 
 ## Objetivo
-Gestionar usuarios, roles, registro, inicio y cierre de sesión.
+Gestionar el acceso seguro al sistema, el perfil de usuario y la administración de cuentas.
 
-## Clases asignadas
-- `Usuario`
-- `Rol`
-- `UsuarioRepository`
-- `AutenticacionService`
-- `Validador`
+## Responsabilidades y Cambios
+- **Sprint 1:** Creación del modelo `Usuario`, `Rol` y el servicio `AutenticacionService`.
+- **Ajustes de Lógica:** Se modificó `AutenticacionService` para incluir el método `actualizarPerfil()`, permitiendo editar credenciales sin cerrar sesión.
+- **Sprint 2 (UI):**
+  - Desarrollo de `LoginFrame` y `RegistroFrame`.
+  - Creación de `MiPerfilPanel` para la edición de datos personales.
+  - Creación de `AdminUsuariosPanel`, exclusivo para visualizar la tabla de usuarios y registrar nuevos administradores.
 
-## Funciones
-- Registrar usuarios con validación.
-- Evitar correos duplicados.
-- Iniciar y cerrar sesión.
-- Diferenciar usuario y administrador.
-- Almacenar usuarios en memoria.
-
-## Integración
-`Main` usa `AutenticacionService` para registrar e iniciar sesión. Los reportes reciben un `Usuario` autenticado.
+## Pruebas
+1. Ingresar como administrador.
+2. Modificar los datos desde "Mi perfil" y validar la actualización.
+3. Acceder a "Gestión Usuarios" y registrar un nuevo administrador.
