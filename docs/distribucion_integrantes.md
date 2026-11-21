@@ -1,26 +1,20 @@
 # Distribución de responsabilidades
 
-## Integrante 1 - Usuarios y autenticación
-- Clases: `Usuario`, `AutenticacionService`, `UsuarioRepository`, `Rol`, `Validador`.
-- Responsabilidades: registro, inicio/cierre de sesión, validación de datos, roles y almacenamiento en memoria.
-- Archivos modificables: `modelos/Usuario.java`, `modelos/Rol.java`, `servicios/AutenticacionService.java`, `repositorios/UsuarioRepository.java`, `utilidades/Validador.java`.
-- Dependencias: ninguna obligatoria para iniciar; expone métodos públicos a `Main`.
-- Entregable: módulo de usuarios funcional y documentado.
+## Sprint 1 y Sprint 2 (Desarrollo Base)
+| Integrante | Módulo Principal | Clases y Paneles Desarrollados |
+|---|---|---|
+| 1 | Autenticación y Usuarios | `Usuario`, `AutenticacionService`, `LoginFrame`, `RegistroFrame`, `MiPerfilPanel`, `AdminUsuariosPanel`. |
+| 2 | Objetos y Reportes | `Objeto`, `Reporte`, `ReporteService`, `DialogoRegistro`, `MisReportesPanel`, `AdminReportesPanel`. |
+| 3 | Búsqueda y Devoluciones | `BusquedaService`, `DevolucionService`, `BusquedaPanel`, `CoincidenciasPanel`, `DevolucionesPanel`, `AdminDevolucionesPanel`. |
 
-## Integrante 2 - Registro y gestión de objetos
-- Clases: `Objeto`, `Reporte`, `ReportePerdido`, `ReporteEncontrado`, `ReporteService`, `EstadoReporte`, `CategoriaObjeto`.
-- Responsabilidades: modelos de reportes, herencia, registro, consulta y actualización de estados.
-- Archivos modificables: `modelos/Objeto.java`, `modelos/Reporte*.java`, `modelos/EstadoReporte.java`, `modelos/CategoriaObjeto.java`, `servicios/ReporteService.java`.
-- Dependencias: usa `Usuario` para asociar reportes.
-- Entregable: módulo de reportes funcional y documentado.
+## Refactorización y Corrección de Errores (Fase de Integración)
+En la transición hacia el Sprint 2 y la implementación del flujo por roles, se requirió ajustar parte de la lógica del Sprint 1. Responsables de los cambios:
 
-## Integrante 3 - Búsqueda, coincidencias y devoluciones
-- Clases: `BusquedaService`, `Coincidencia`, `CoincidenciaService`, `Devolucion`, `DevolucionService`.
-- Responsabilidades: búsquedas por criterios, cálculo de coincidencias, devoluciones y actualización de estados.
-- Archivos modificables: `servicios/BusquedaService.java`, `servicios/CoincidenciaService.java`, `servicios/DevolucionService.java`, `modelos/Coincidencia.java`, `modelos/Devolucion.java`.
-- Dependencias: recibe `ReporteService` por constructor.
-- Entregable: módulo de búsqueda, coincidencias y devoluciones funcional y documentado.
-
-## Integración
-- `Main.java` conecta los módulos mediante servicios.
-- No contiene lógica de negocio duplicada; solo entrada/salida por consola.
+| Archivo Modificado / Creado | Responsable | Motivo del Cambio |
+|---|---|---|
+| **`Devolucion` y `EstadoDevolucion`** | Integrante 3 | Se reemplazó la devolución directa por una máquina de estados (Solicitada, Verificada, Autorizada, Entregada). |
+| **`DevolucionService`** | Integrante 3 | Reestructuración de métodos (`solicitar`, `verificar`, `autorizar`, `entregar`) para respetar el flujo de trabajo. |
+| **`AutenticacionService`** | Integrante 1 | Se agregó el método `actualizarPerfil` para soportar la vista de "Mi Perfil". |
+| **`CoincidenciaService`** | Integrante 3 | Corrección de bug: se reinicia el contador `secuenciaId` para evitar IDs acumulativos erróneos. |
+| **`InicioPanel`** | Integrante 2 | Se agregó el método `refrescar()` para actualizar dinámicamente las tarjetas estadísticas al navegar. |
+| **`DashboardFrame`** | Integración General | Unificación de la navegación con `CardLayout` y despacho de eventos por `setActionCommand`. |
