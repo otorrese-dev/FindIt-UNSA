@@ -1,116 +1,88 @@
 package finditunsa.servicios;
 
+import finditunsa.archivos.GestorArchivosObjetos;
+import finditunsa.archivos.GestorArchivosTexto;
 import finditunsa.modelos.*;
-import finditunsa.utilidades.Validador;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 //RESPONSABLE: INTEGRANTE 2
-//MODULO: Registro y gestión de objetos
-//DESCRIPCION: Gestiona reportes perdidos y encontrados en memoria.
-
+//MODULO: Persistencia de Reportes y Archivos de Texto
+//DESCRIPCION: Servicio de reportes conectado a persistencia de objetos y texto.
+ 
 public class ReporteService {
-    // Lista en memoria donde se guardan todos los reportes.
-    private final List<Reporte> reportes = new ArrayList<>();
+    private final List<Reporte> reportes;
+    private final DatosSistema datosSistema;
 
-    // Secuencia para asignar IDs únicos a cada reporte.
-    private int secuenciaId = 1;
+    // El servicio ahora recibe el contenedor global DatosSistema
+    public ReporteService(DatosSistema datos) {
+        this.datosSistema = datos;
+        this.reportes = datos.reportes;
+    }
 
-    // Registra un objeto perdido con estado inicial REGISTRADO.
+    // Calcula el siguiente ID basándose en los datos cargados del archivo
+    private int getSiguienteId() {
+        int max = 0;
+        for (Reporte r : reportes) if (r.getId() > max) max = r.getId();
+        return max + 1;
+    }
+
     public ReportePerdido registrarReportePerdido(Usuario usuario, Objeto objeto) {
-        // Validación defensiva: no se permite usuario u objeto nulo.
-        Validador.validarNoNulo(usuario, "usuario");
-        Validador.validarNoNulo(objeto, "objeto");
-
-        // Se crea el reporte con el siguiente ID, fecha actual y estado inicial.
-        ReportePerdido reporte = new ReportePerdido(
-                secuenciaId++,
-                usuario,
-                objeto,
-                LocalDateTime.now(),
-                EstadoReporte.REGISTRADO
-        );
-        reportes.add(reporte);
-        return reporte;
+        ReportePerdido r = new ReportePerdido(getSiguienteId(), usuario, objeto, LocalDateTime.now(), EstadoReporte.REGISTRADO);
+        reportes.add(r);
+        persistirReporte("Nuevo PERDIDO: " + objeto.getNombre()); // <--- Guarda en archivos
+        return r;
     }
 
-    // Registra un objeto encontrado con estado inicial REGISTRADO.
     public ReporteEncontrado registrarReporteEncontrado(Usuario usuario, Objeto objeto) {
-        Validador.validarNoNulo(usuario, "usuario");
-        Validador.validarNoNulo(objeto, "objeto");
-
-        ReporteEncontrado reporte = new ReporteEncontrado(
-                secuenciaId++,
-                usuario,
-                objeto,
-                LocalDateTime.now(),
-                EstadoReporte.REGISTRADO
-        );
-        reportes.add(reporte);
-        return reporte;
+        ReporteEncontrado r = new ReporteEncontrado(getSiguienteId(), usuario, objeto, LocalDateTime.now(), EstadoReporte.REGISTRADO);
+        reportes.add(r);
+        persistirReporte("Nuevo ENCONTRADO: " + objeto.getNombre()); // <--- Guarda en archivos
+        return r;
     }
 
-    // Devuelve una copia de todos los reportes para no exponer la lista interna.
-    public List<Reporte> listarReportes() {
-        return new ArrayList<>(reportes);
+    //Método centralizado para guardar el estado del sistema en los archivos cada vez que se registra o modifica un reporte.
+    
+    private void persistirReporte(String actividad) {
+        GestorArchivosObjetos.guardar(datosSistema);          // Guarda el .dat
+        GestorArchivosTexto.registrarActividad(actividad);    // Añade al historial .txt
+        GestorArchivosTexto.exportarReportes(reportes);       // Sobrescribe la lista legible .txt
     }
 
-    // Filtra solo los reportes de tipo perdido usando instanceof.
+    public List<Reporte> listarReportes() { return new ArrayList<>(reportes); }
+
     public List<ReportePerdido> listarPerdidos() {
-        List<ReportePerdido> perdidos = new ArrayList<>();
-        for (Reporte reporte : reportes) {
-            if (reporte instanceof ReportePerdido perdido) {
-                perdidos.add(perdido);
-            }
-        }
-        return perdidos;
+        List<ReportePerdido> l = new ArrayList<>();
+        for (Reporte r : reportes) if (r instanceof ReportePerdido) l.add((ReportePerdido) r);
+        return l;
     }
 
-    // Filtra solo los reportes de tipo encontrado usando instanceof.
     public List<ReporteEncontrado> listarEncontrados() {
-        List<ReporteEncontrado> encontrados = new ArrayList<>();
-        for (Reporte reporte : reportes) {
-            if (reporte instanceof ReporteEncontrado encontrado) {
-                encontrados.add(encontrado);
-            }
-        }
-        return encontrados;
+        List<ReporteEncontrado> l = new ArrayList<>();
+        for (Reporte r : reportes) if (r instanceof ReporteEncontrado) l.add((ReporteEncontrado) r);
+        return l;
     }
 
-    // Busca un reporte por ID; devuelve Optional vacío si no existe.
     public Optional<Reporte> buscarPorId(int id) {
-        for (Reporte reporte : reportes) {
-            if (reporte.getId() == id) {
-                return Optional.of(reporte);
-            }
-        }
+        for (Reporte r : reportes) if (r.getId() == id) return Optional.of(r);
         return Optional.empty();
     }
 
-    // Cambia el estado de un reporte existente.
     public Reporte actualizarEstado(int id, EstadoReporte nuevoEstado) {
-        Validador.validarNoNulo(nuevoEstado, "estado");
-
-        // Si el reporte no existe, se lanza excepción con mensaje claro.
-        Reporte reporte = buscarPorId(id)
-                .orElseThrow(() -> new IllegalArgumentException("No existe un reporte con ID " + id));
-
-        reporte.setEstado(nuevoEstado);
-        return reporte;
+        Reporte r = buscarPorId(id).orElseThrow(() -> new IllegalArgumentException("No existe reporte con ID " + id));
+        r.setEstado(nuevoEstado);
+        
+        // Persistencia al cambiar de estado (ej. cuando se devuelve un objeto)
+        GestorArchivosObjetos.guardar(datosSistema);
+        GestorArchivosTexto.exportarReportes(reportes);
+        return r;
     }
 
-    // Lista los reportes creados por un usuario específico.
     public List<Reporte> listarPorUsuario(Usuario usuario) {
-        List<Reporte> resultado = new ArrayList<>();
-        for (Reporte reporte : reportes) {
-            // Se compara por ID para evitar depender de equals de Usuario.
-            if (reporte.getUsuario() != null && reporte.getUsuario().getId() == usuario.getId()) {
-                resultado.add(reporte);
-            }
-        }
-        return resultado;
+        List<Reporte> l = new ArrayList<>();
+        for (Reporte r : reportes) if (r.getUsuario().getId() == usuario.getId()) l.add(r);
+        return l;
     }
 }
