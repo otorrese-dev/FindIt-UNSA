@@ -6,14 +6,14 @@ import finditunsa.repositorios.UsuarioRepository;
 import finditunsa.utilidades.Validador;
 
 // RESPONSABLE: INTEGRANTE 1
-// MODULO: Usuarios y autenticación
-// DESCRIPCION: Gestiona registro, inicio y cierre de sesión.
+// MODULO: Persistencia de Usuarios y Archivos de Objetos
+// DESCRIPCION: Gestiona registro, inicio, cierre de sesión y edición de perfil con persistencia en .dat.
 
 public class AutenticacionService {
     private final UsuarioRepository usuarioRepository;
     private Usuario usuarioActual; // Guarda el usuario que inició sesión en este momento
 
-    // Inyecta el repositorio para comunicarse con la memoria
+    // Inyecta el repositorio conectado al archivo de objetos
     public AutenticacionService(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
     }
@@ -30,12 +30,12 @@ public class AutenticacionService {
             throw new IllegalArgumentException("El rol es obligatorio.");
         }
 
-        // Verificar que el correo no esté registrado previa parte
+        // Verificar que el correo no esté registrado previamente
         if (usuarioRepository.existeCorreo(correo)) {
             throw new IllegalArgumentException("Ya existe un usuario con ese correo.");
         }
 
-        // Crear objeto temporal con ID 0 y mandarlo a guardar al repositorio
+        // Crear objeto temporal con ID 0 y mandarlo a guardar al repositorio (.dat)
         Usuario usuario = new Usuario(0, nombre.trim(), correo.trim(), contrasena, rol);
         return usuarioRepository.guardar(usuario);
     }
@@ -88,31 +88,25 @@ public class AutenticacionService {
         }
 
         Usuario u = getUsuarioActual();
+
         // Validar formato de nombre y correo
         Validador.validarTextoNoVacio(nuevoNombre, "nombre");
         Validador.validarCorreo(nuevoCorreo);
 
-        String correoAnterior = u.getCorreo();
-        String correoLimpio = nuevoCorreo.trim().toLowerCase();
-
-        // Evitar duplicados si el usuario cambió su correo por uno ya existente
-        if (!correoAnterior.equalsIgnoreCase(correoLimpio) && usuarioRepository.existeCorreo(correoLimpio)) {
-            throw new IllegalArgumentException("Ese correo ya está registrado por otro usuario.");
-        }
-
-        // Validar nueva contraseña solo si el campo no llegó vacío
+        // Validar nueva contraseña solo si se ingresó una nueva
         boolean cambiarClave = nuevaContrasena != null && !nuevaContrasena.isEmpty();
         if (cambiarClave) {
             Validador.validarContrasena(nuevaContrasena);
         }
 
-        // Actualizar atributos en el objeto y sincronizar clave en el repositorio
+        // Actualizar atributos en el objeto en memoria
         u.setNombre(nuevoNombre.trim());
-        u.setCorreo(correoLimpio);
-        usuarioRepository.actualizarCorreo(correoAnterior, u);
-
+        u.setCorreo(nuevoCorreo.trim());
         if (cambiarClave) {
             u.setContrasena(nuevaContrasena);
         }
+
+        // Guardar cambios en el repositorio para persistirlos en datos_sistema.dat
+        usuarioRepository.guardar(u);
     }
 }
