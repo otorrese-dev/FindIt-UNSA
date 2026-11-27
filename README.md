@@ -64,11 +64,9 @@ FindIt-UNSA/
 │       └── estadisticas.bin
 ├── docs/
 │   ├── arquitectura.md
-│   ├── arquitectura_sprint3.md
 │   ├── clases_sprint1.md
 │   ├── contratos_integracion.md
 │   ├── distribucion_integrantes.md
-│   ├── distribucion_integrantes_sprint3.md
 │   ├── instrucciones_ejecucion.md
 │   ├── integrante_1.md
 │   ├── integrante_2.md
