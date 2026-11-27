@@ -3,9 +3,9 @@ package finditunsa.modelos;
 //RESPONSABLE: INTEGRANTE 1
 //MODULO: Usuarios y autenticación
 //DESCRIPCION: Clase de usuario
+import java.io.Serializable;
 
-
-public class Usuario {
+public class Usuario implements Serializable {
     private int id;
     private String nombre;
     private String correo;

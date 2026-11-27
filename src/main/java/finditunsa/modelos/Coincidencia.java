@@ -3,12 +3,13 @@ package finditunsa.modelos;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 
 
 // RESPONSABLE: INTEGRANTE 3
 // MODULO: Búsqueda, coincidencias y devoluciones
 // DESCRIPCION: Representa una posible coincidencia entre un reporte perdido y uno encontrado.
-public class Coincidencia {
+public class Coincidencia implements Serializable {
     // Identificador único de la coincidencia en el sistema
     private int id;
 

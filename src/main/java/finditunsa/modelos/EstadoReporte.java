@@ -1,11 +1,12 @@
 package finditunsa.modelos;
 
+import java.io.Serializable;
 
 //RESPONSABLE: INTEGRANTE 2
 //MODULO: Registro y gestión de objetos
 //DESCRIPCION: Estados posibles de un reporte.
 
-public enum EstadoReporte {
+public enum EstadoReporte implements Serializable {
     REGISTRADO("Registrado"),
     EN_BUSQUEDA("En búsqueda"),
     POSIBLE_COINCIDENCIA("Posible coincidencia"),

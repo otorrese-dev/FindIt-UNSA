@@ -1,11 +1,13 @@
 package finditunsa.modelos;
 
+import java.io.Serializable;
+
 //RESPONSABLE: INTEGRANTE 1
 //MODULO: Usuarios y autenticación
 //DESCRIPCION: Define los roles disponibles para los usuarios.
 
 //Clase de constantes con las etiquetas para USUARIO Y ADMINISTRADOR
-public enum Rol {
+public enum Rol implements Serializable{
     USUARIO("Usuario"),
     ADMINISTRADOR("Administrador");
 

@@ -1,8 +1,9 @@
 package finditunsa.modelos;
 
 import java.time.LocalDateTime;
+import java.io.Serializable;
 
-public class Devolucion {
+public class Devolucion implements Serializable {
     // Atributos
     private int id;
     private ReportePerdido reportePerdido;

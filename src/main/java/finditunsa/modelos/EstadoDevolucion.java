@@ -1,6 +1,8 @@
 package finditunsa.modelos;
 
-public enum EstadoDevolucion {
+import java.io.Serializable;
+
+public enum EstadoDevolucion implements Serializable {
     SOLICITADA("Solicitada"),
     VERIFICADA("Verificada"),
     AUTORIZADA("Autorizada"),

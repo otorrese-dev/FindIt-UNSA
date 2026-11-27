@@ -1,12 +1,13 @@
 package finditunsa.modelos;
 
 import java.time.LocalDate;
+import java.io.Serializable;
 
 //RESPONSABLE: INTEGRANTE 2
 //MODULO: Registro y gestión de objetos
 //DESCRIPCION: Representa las características físicas de un objeto.
 
-public class Objeto {
+public class Objeto implements Serializable {
     private String nombre;
     private String descripcion;
     private CategoriaObjeto categoria;

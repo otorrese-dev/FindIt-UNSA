@@ -1,12 +1,13 @@
 package finditunsa.modelos;
 
 import java.time.LocalDateTime;
+import java.io.Serializable;
 
 //RESPONSABLE: INTEGRANTE 2
 //MODULO: Registro y gestión de objetos
 //DESCRIPCION: Reporte de un objeto encontrado.
 
-public class ReporteEncontrado extends Reporte {
+public class ReporteEncontrado extends Reporte implements Serializable {
 
     public ReporteEncontrado() {
         super();

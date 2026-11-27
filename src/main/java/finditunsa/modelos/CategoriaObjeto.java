@@ -1,10 +1,11 @@
 package finditunsa.modelos;
 
+import java.io.Serializable;
 //RESPONSABLE: INTEGRANTE 2
 //MODULO: Registro y gestión de objetos
 //DESCRIPCION: Categorías disponibles para clasificar objetos.
 
-public enum CategoriaObjeto {
+public enum CategoriaObjeto implements Serializable{
     ELECTRONICA("Electrónica"),
     DOCUMENTOS("Documentos"),
     ROPA("Ropa"),
