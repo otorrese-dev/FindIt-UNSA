@@ -1,22 +1,32 @@
 package finditunsa.repositorios;
 
+import finditunsa.archivos.GestorArchivosObjetos;
+import finditunsa.modelos.DatosSistema;
 import finditunsa.modelos.Usuario;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-//RESPONSABLE: INTEGRANTE 1
-//MODULO: Usuarios y autenticación
-//DESCRIPCION: Repositorio temporal en memoria para usuarios.
+//MODULO: Persistencia de Usuarios y Archivos de Objetos
+//DESCRIPCION: Repositorio de usuarios conectado al contenedor DatosSistema y al archivo .dat.
 
 public class UsuarioRepository {
-    private final List<Usuario> usuarios = new ArrayList<>();
-    private final HashMap<String, Usuario> usuariosPorCorreo = new HashMap<>();
-    private int secuenciaId = 1;
+    private final List<Usuario> usuarios;
+    private final DatosSistema datosSistema;
 
-    // METODO PARA GUARDAR USUARIO
+    // CONSTRUCTOR PARA INICIALIZAR EL REPOSITORIO CON LOS DATOS DEL SISTEMA
+    public UsuarioRepository(DatosSistema datos) {
+        // Validar que el contenedor de datos no sea nulo
+        if (datos == null) {
+            throw new IllegalArgumentException("Los datos del sistema no pueden ser nulos.");
+        }
+        // Enlazar la referencia de DatosSistema y su lista de usuarios
+        this.datosSistema = datos;
+        this.usuarios = datos.usuarios;
+    }
+
+    // METODO PARA GUARDAR O ACTUALIZAR USUARIO
     public Usuario guardar(Usuario usuario) {
         // Validar que el usuario no sea nulo
         if (usuario == null) {
@@ -24,31 +34,54 @@ public class UsuarioRepository {
         }
 
         // Normalizar correo (minúsculas y sin espacios)
-        String correoNormalizado = usuario.getCorreo() == null
+        String correo = usuario.getCorreo() == null
                 ? ""
                 : usuario.getCorreo().trim().toLowerCase();
 
-        // Verificar que no esté vacío
-        if (correoNormalizado.isEmpty()) {
+        // Verificar que el correo no esté vacío
+        if (correo.isEmpty()) {
             throw new IllegalArgumentException("El correo del usuario es obligatorio.");
         }
 
-        // Verificar que no exista correo duplicado
-        if (usuariosPorCorreo.containsKey(correoNormalizado)) {
-            throw new IllegalArgumentException("Ya existe un usuario con el correo: " + correoNormalizado);
+        // Verificar que no exista otro usuario distinto con el mismo correo
+        for (Usuario u : usuarios) {
+            if (u.getCorreo() != null && u.getCorreo().equalsIgnoreCase(correo) && u.getId() != usuario.getId()) {
+                throw new IllegalArgumentException("Ya existe un usuario con ese correo.");
+            }
         }
 
-        // Asignar ID autoincremental
+        // Asignar ID autoincremental si el usuario es nuevo
         if (usuario.getId() == 0) {
-            usuario.setId(secuenciaId++);
-        } else {
-            secuenciaId = Math.max(secuenciaId, usuario.getId() + 1);
+            int maxId = 0;
+            // Buscar el ID más alto registrado actualmente
+            for (Usuario u : usuarios) {
+                if (u.getId() > maxId) {
+                    maxId = u.getId();
+                }
+            }
+            usuario.setId(maxId + 1);
         }
 
-        // Guardar en la lista y en el HashMap
-        usuario.setCorreo(correoNormalizado);
-        usuarios.add(usuario);
-        usuariosPorCorreo.put(correoNormalizado, usuario);
+        // Guardar correo normalizado en el objeto usuario
+        usuario.setCorreo(correo);
+
+        // Verificar si el usuario ya existe en la lista para actualizarlo
+        boolean existe = false;
+        for (int i = 0; i < usuarios.size(); i++) {
+            if (usuarios.get(i).getId() == usuario.getId()) {
+                usuarios.set(i, usuario);
+                existe = true;
+                break;
+            }
+        }
+
+        // Si no existía previamente, agregarlo a la lista
+        if (!existe) {
+            usuarios.add(usuario);
+        }
+
+        // Guardar automáticamente los cambios en el archivo datos_sistema.dat
+        GestorArchivosObjetos.guardar(datosSistema);
         return usuario;
     }
 
@@ -58,35 +91,23 @@ public class UsuarioRepository {
         if (correo == null) {
             return Optional.empty();
         }
-        // Buscar y retornar usando Optional
-        return Optional.ofNullable(usuariosPorCorreo.get(correo.trim().toLowerCase()));
-    }
-
-    // METODO PARA ACTUALIZAR EL CORREO
-    public void actualizarCorreo(String correoAnterior, Usuario usuario) {
-        // Validar que el usuario no sea nulo
-        if (usuario == null) {
-            throw new IllegalArgumentException("El usuario no puede ser nulo.");
+        // Normalizar correo y recorrer la lista buscando coincidencia
+        String normalizado = correo.trim().toLowerCase();
+        for (Usuario u : usuarios) {
+            if (u.getCorreo() != null && u.getCorreo().equalsIgnoreCase(normalizado)) {
+                return Optional.of(u);
+            }
         }
-
-        // Normalizar y asignar el nuevo correo al objeto usuario
-        String nuevoNormalizado = usuario.getCorreo().trim().toLowerCase();
-        usuario.setCorreo(nuevoNormalizado);
-
-        // Eliminar la clave del correo anterior en el mapa si existe
-        if (correoAnterior != null) {
-            usuariosPorCorreo.remove(correoAnterior.trim().toLowerCase());
-        }
-        // Registrar el usuario bajo la nueva clave de correo
-        usuariosPorCorreo.put(nuevoNormalizado, usuario);
+        // Retornar vacío si no se encuentra
+        return Optional.empty();
     }
 
     // METODO PARA BUSCAR POR ID
     public Optional<Usuario> buscarPorId(int id) {
         // Recorrer la lista buscando coincidencia de ID
-        for (Usuario usuario : usuarios) {
-            if (usuario.getId() == id) {
-                return Optional.of(usuario);
+        for (Usuario u : usuarios) {
+            if (u.getId() == id) {
+                return Optional.of(u);
             }
         }
         // Retornar vacío si no se encuentra
@@ -95,11 +116,8 @@ public class UsuarioRepository {
 
     // METODO PARA VERIFICAR SI EXISTE CORREO
     public boolean existeCorreo(String correo) {
-        // Retornar falso si es nulo, o true/false si la clave existe
-        if (correo == null) {
-            return false;
-        }
-        return usuariosPorCorreo.containsKey(correo.trim().toLowerCase());
+        // Reutilizar la búsqueda por correo para confirmar existencia
+        return buscarPorCorreo(correo).isPresent();
     }
 
     // METODO PARA LISTAR USUARIOS
