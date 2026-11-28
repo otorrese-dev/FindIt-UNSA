@@ -318,12 +318,10 @@ Abrir una terminal en la carpeta raíz del proyecto.
 ### Windows (CMD)
 
 Compilar todas las clases:
-
 ```cmd
 if not exist out mkdir out
-(for /r src\main\java %f in (*.java) do @echo "%f") > fuentes.txt
+dir /s /B src\main\java\*.java > fuentes.txt
 javac -encoding UTF-8 -d out @fuentes.txt
-```
 
 Ejecutar la aplicación:
 
